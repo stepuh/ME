@@ -5,10 +5,18 @@ import Jama.Matrix;
 
 public class LinearAlgebra {
 	
-	public static double[] getMyu(Dataset prototype){
-		// init
-		int d = prototype.features.length;
-		ArrayList<Dataset> datasets = prototype.getRelatedDatasets();
+	
+	// calculate euklidian distance between a and b
+	public static double distanceEuklid(Dataset a, Dataset b){
+		int result = 0;
+		for(int i=0; i< a.features.length; i++){
+    		result += Math.pow(a.features[i] - b.features[i], 2);
+    	}
+    	return Math.sqrt(result);
+	}
+	
+	public static double[] getMyu(ArrayList<Dataset> datasets){
+		int d = datasets.get(0).features.length;
 		double[] myu = new double[d];
 		for(int i=0; i<d; i++)
 			myu[i]=0;
@@ -24,6 +32,14 @@ public class LinearAlgebra {
 		return myu;
 	}
 	
+	
+	public static double[] getMyu(Dataset prototype){
+		ArrayList<Dataset> datasets = prototype.getRelatedDatasets();
+		return getMyu(datasets);
+	}
+	
+	
+	
 	public static double getPi( Dataset prototype){
 		double result = 0;
 		int size = prototype.relations.size();
@@ -32,6 +48,8 @@ public class LinearAlgebra {
 		result /= size;
 		return result;
 	}
+	
+	
 	
 	public static double[][] getS( Dataset prototype){
 		
@@ -62,6 +80,9 @@ public class LinearAlgebra {
 		return s.getArray();
 	}
 	
+	
+	
+	
 	// uses the bayes-classificator to calculate the probability that
 	// a dataset is indeed member of a certain class if the expectation is known 
 	//
@@ -74,7 +95,7 @@ public class LinearAlgebra {
 	// P(xj|Ci):expectation that Dataset xj is member of Prototype Ci
 	// P(Ci):	a priori probability for Prototype Ci
 	// P(xj):	probability for xj to be a member of any Prototype
-	public double getBayes(Relation r){
+	public static double getBayes(Relation r){
 		double P_xj_Ci = 0.0;
 		double P_Ci = 0.0;
 		double P_xj = 0.0;
@@ -86,7 +107,9 @@ public class LinearAlgebra {
 		return P_xj_Ci * P_Ci / P_xj; 
 	}
 	
-	public Dataset getMostProbable(Dataset d){
+	
+	
+	public static Dataset getMostProbable(Dataset d){
 		Relation mostProbable = d.relations.get(0);
 		for(Relation r: d.relations){
 			if( r.probability > mostProbable.probability){
@@ -96,7 +119,9 @@ public class LinearAlgebra {
 		return mostProbable.prototype;
 	}
 
-	public Dataset getMostProbableBayes(Dataset d){
+	
+	
+	public static Dataset getMostProbableBayes(Dataset d){
 		Relation mostProbable = d.relations.get(0);
 		for(Relation r: d.relations){
 			if( getBayes(r) > getBayes(mostProbable)){
