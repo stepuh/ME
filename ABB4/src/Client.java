@@ -1,6 +1,8 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import Jama.Matrix;
+
 
 // Hallo Steffen!! :)
 public class Client {
@@ -23,10 +25,17 @@ public class Client {
 		
 		ArrayList<Dataset> training = new Reader("training.txt").getDatasets();
 		
-		Database allRelations = new Database(training);
-		dimensions = allRelations.dimensions;
+		Database db = new Database(training);
+		dimensions = db.dimensions;
 		
 		
-		allRelations.addAllPrototypes( generatePrototypes( k, dimensions ));
+		db.addAllPrototypes( generatePrototypes( k, dimensions ));
+		double count = db.datasets.size();
+		for(Relation r: db.relations){
+			r.probability = 1/count;
+		}
+		
+		Matrix ko = new Matrix( LinearAlgebra.getS(db.prototypes.get(1)));
+		ko.print(16, 4);
 	}
 }
