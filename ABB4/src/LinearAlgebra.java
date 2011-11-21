@@ -130,4 +130,51 @@ public class LinearAlgebra {
 		}
 		return mostProbable.prototype;
 	}
+	
+	
+	
+	// Calculates the probability that <from> is a member of <prototype> with Gauss
+	public static void calculateExpectation(Relation r){
+		// init
+		double[] myu = getMyu(r.prototype);
+		Matrix s = new Matrix( getS(r.prototype) );
+		
+		double expectation = 0.0;
+		expectation += getPi(r.prototype); 
+		System.out.println("pi:" + expectation);
+		
+		// find out dimensions
+		int d = r.prototype.features.length;
+
+		// left part of formula
+		double firstLeft = Math.pow(2.0 * Math.PI, d * -0.5);
+		expectation = expectation * firstLeft;
+		
+		
+		
+		double firstRight =  Math.pow( s.det(), -0.5);
+		expectation = expectation * firstRight;
+		System.out.print("calc: "+expectation);
+		
+		// right part of formula: e^(...)
+		double[] tempVektor = new double[d];
+		
+		for(int i=0; i<d; i++){
+			tempVektor[i] = r.dataset.features[i] - myu[i];
+		}
+		
+		Matrix v = new Matrix(tempVektor,1);
+		Matrix vT = v.transpose();
+		
+		Matrix resultMatrix =  v.times(s.inverse());
+		resultMatrix = resultMatrix.times(vT);
+		resultMatrix = resultMatrix.times(-0.5);
+		
+		double powValue = resultMatrix.get(0, 0);
+		System.out.println("* e^:"+powValue);
+		
+		expectation *= Math.exp(powValue); 
+		System.out.println("final expectaton:"+expectation);
+		r.probability = expectation;
+	}
 }
