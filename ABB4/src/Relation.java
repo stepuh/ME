@@ -1,11 +1,11 @@
 public class Relation {
-	public Dataset prototype;
+	public Prototype prototype;
 	public Dataset dataset;	
 	public double probability;
+	public double distance;
 	
-	Relation(Dataset d, Dataset proto, double prob){
+	Relation(Dataset d, Prototype proto){
 		prototype = proto;
 		dataset = d;
-		probability = prob;
 	}
 }

@@ -17,13 +17,15 @@ public class Reader {
 		
 		data = new ArrayList<Dataset>();
 
+		// parse lines
 		while( scanner.hasNext() ){
-			// parse lines
 			String line = scanner.nextLine().trim(); 
 			String[] stringParts = line.split("\\s+");
 			
+			// parse correct class
 			int correctKlass = Integer.parseInt( stringParts[ stringParts.length - 1]);
 			
+			// parse features
 			double [] features = new double[ stringParts.length-1 ];
 			for(int i=0; i < stringParts.length-1; i++){
 				features[i] = Double.parseDouble( stringParts[i] );
