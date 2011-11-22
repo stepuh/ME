@@ -7,7 +7,7 @@ public class LinearAlgebra {
 	
 	
 	// calculate euklidian distance between a and b
-	public static double distanceEuklid(Dataset a, Dataset b){
+	public static double distanceEuklid(Container a, Container b){
 		int result = 0;
 		for(int i=0; i< a.features.length; i++){
     		result += Math.pow(a.features[i] - b.features[i], 2);
@@ -33,52 +33,6 @@ public class LinearAlgebra {
 	}
 	
 	
-	public static double[] getMyu(Dataset prototype){
-		ArrayList<Dataset> datasets = prototype.getRelatedDatasets();
-		return getMyu(datasets);
-	}
-	
-	
-	
-	public static double getPi( Dataset prototype){
-		double result = 0;
-		int size = prototype.relations.size();
-		for(Relation r: prototype.relations)
-			result += r.probability;
-		result /= size;
-		return result;
-	}
-	
-	
-	
-	public static double[][] getS( Dataset prototype){
-		
-		// init
-		int d = prototype.features.length;
-		ArrayList<Relation> relations = prototype.relations;
-		Matrix s = new Matrix(d, d);
-		
-		double[] myu = getMyu(prototype);
-		
-		// sum over relations to calculate S
-		double sum = 0;
-		for(Relation r: relations){
-			sum += r.probability;
-			
-			double[] dist = new double[d];			
-			for(int i=0; i<d; i++){
-				dist[i] = r.dataset.features[i] - myu[i];
-			}
-			
-			Matrix distMatrix = new Matrix(dist,1);
-			Matrix distMatrixT = distMatrix.transpose();
-			s = s.plus(distMatrixT.times(distMatrix));
-			s = s.times(r.probability);
-		}	
-		
-		s = s.times(1.0/sum);
-		return s.getArray();
-	}
 	
 	
 	
@@ -101,65 +55,43 @@ public class LinearAlgebra {
 		double P_xj = 0.0;
 		
 		P_xj_Ci = r.probability;
-		P_Ci = getPi(r.prototype);
+		P_Ci = r.prototype.pi;
 		P_xj += r.probability * P_Ci;
 
 		return P_xj_Ci * P_Ci / P_xj; 
 	}
-	
-	
-	
-	public static Dataset getMostProbable(Dataset d){
-		Relation mostProbable = d.relations.get(0);
-		for(Relation r: d.relations){
-			if( r.probability > mostProbable.probability){
-				mostProbable = r;
-			}
-		}
-		return mostProbable.prototype;
-	}
 
 	
 	
-	public static Dataset getMostProbableBayes(Dataset d){
-		Relation mostProbable = d.relations.get(0);
-		for(Relation r: d.relations){
-			if( getBayes(r) > getBayes(mostProbable)){
-				mostProbable = r;
-			}
-		}
-		return mostProbable.prototype;
-	}
+
 	
 	
 	
 	// Calculates the probability that <from> is a member of <prototype> with Gauss
 	public static void calculateExpectation(Relation r){
 		// init
-		double[] myu = getMyu(r.prototype);
-		Matrix s = new Matrix( getS(r.prototype) );
+		double[] myu = LinearAlgebra.getMyu( r.prototype.getRelated() );
+		Matrix s = r.prototype.s;
 		
 		double expectation = 0.0;
-		expectation += getPi(r.prototype); 
+		expectation += r.prototype.pi; 
 		System.out.println("pi:" + expectation);
 		
 		// find out dimensions
-		int d = r.prototype.features.length;
+		int dim = r.prototype.dim;
 
 		// left part of formula
-		double firstLeft = Math.pow(2.0 * Math.PI, d * -0.5);
+		double firstLeft = Math.pow(2.0 * Math.PI, dim * -0.5);
 		expectation = expectation * firstLeft;
-		
-		
 		
 		double firstRight =  Math.pow( s.det(), -0.5);
 		expectation = expectation * firstRight;
 		System.out.print("calc: "+expectation);
 		
 		// right part of formula: e^(...)
-		double[] tempVektor = new double[d];
+		double[] tempVektor = new double[dim];
 		
-		for(int i=0; i<d; i++){
+		for(int i=0; i<dim; i++){
 			tempVektor[i] = r.dataset.features[i] - myu[i];
 		}
 		
