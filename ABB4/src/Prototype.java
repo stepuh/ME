@@ -3,11 +3,15 @@ import java.util.ArrayList;
 import Jama.Matrix;
 
 
+/*
+ * A Prototype is a representative of a certain cluster.
+ * For Gaussian Mixture Model it also represents the cluster's Gaussian Variance
+ * and a-priori probability.
+ */
 public class Prototype extends Container{
 
-
-	double pi;
-	Matrix s;
+	double pi;		// a-priori probability
+	Matrix s;		// kovarianz matrix
 	
 	public Prototype(double[] f) {
 		super(f);
@@ -17,6 +21,9 @@ public class Prototype extends Container{
 		super(c, f);
 	}
 	
+	
+	
+	// Returns a list of Datasets that are related with this prototype
 	public ArrayList<Dataset> getRelated(){
 		ArrayList<Dataset> result = new ArrayList<Dataset>();
 		for(Relation r: relations){
@@ -25,6 +32,9 @@ public class Prototype extends Container{
 		return result;
 	}
 	
+	
+	
+	// Calculates the a-priori probability
 	public void calcPi(){
 		pi = 0;
 		int size = relations.size();
@@ -33,6 +43,9 @@ public class Prototype extends Container{
 		pi /= size;
 	}
 	
+	
+	
+	// Calculates the kovarianz matrix 
 	public void calcS(){
 		s = new Matrix(dim, dim);
 		
@@ -57,4 +70,14 @@ public class Prototype extends Container{
 		s = s.times(1.0/sum);
 	}
 
+	
+	
+	// Repositions the prototype randomly
+	public void reinitialize(){
+		for(int i=0; i<features.length; i++){
+			features[i] = Math.random() *100;
+		}
+	}
+	
+	
 }

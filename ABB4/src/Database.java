@@ -1,12 +1,19 @@
 import java.util.ArrayList;
 
+
+/*
+ * The Database contains all important data that is used in EM-Algorithms
+ * and Fisher-Algorithm.
+ * It contains both, Datasets and prototypes as well as the relations these
+ * combine. 
+ */
 public class Database{
 	
-	int dimensions;
-	Relation mostProbable;
-	ArrayList<Dataset> datasets;
-	ArrayList<Prototype> prototypes;
-	ArrayList<Relation> relations;
+	int dimensions;						// dimensions of vectors
+	Relation mostProbable;				
+	ArrayList<Dataset> datasets;		// list of all Datasets
+	ArrayList<Prototype> prototypes;	// list of all Prototypes
+	ArrayList<Relation> relations;		// list of all relations between Datasets and Prototypes
 	
 	
 	
@@ -18,7 +25,8 @@ public class Database{
 	}
 	
 	
-	// overload constructor to handle a generic list as initialization
+	
+	// Overload constructor to handle a generic list as initialization
 	Database( ArrayList<? extends Container> containers ) throws Exception{
 		this();
 		dimensions = containers.get(0).features.length;
@@ -27,7 +35,7 @@ public class Database{
 	
 	
 	
-	// add a list of prototype/datasets
+	// Add a list of prototype/datasets
 	public void addAll( ArrayList<? extends Container> containers ) throws Exception {
 		for(Object c: containers){
 			add((Container) c);
@@ -35,9 +43,8 @@ public class Database{
 	}
 
 
-
 	
-	// determines what kind of subclass from Container c is and adds the adequate relation
+	// Determines what kind of subclass from Container c is and adds the adequate relation
 	public void add( Container c) throws Exception{
 		if( c instanceof Prototype ){
 			Prototype p = (Prototype) c;

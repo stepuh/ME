@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import Jama.Matrix;
 
 
+/*
+ * This Helper Class gives us a set of functions and tools
+ * that are needed for Gauss, Euklid, Bayes and other stuff. 
+ */
 public class LinearAlgebra {
 	
 	
@@ -15,6 +19,9 @@ public class LinearAlgebra {
     	return Math.sqrt(result);
 	}
 	
+	
+	
+	// Calculates the center point over a set of Datasets
 	public static double[] getMyu(ArrayList<Dataset> datasets){
 		int d = datasets.get(0).features.length;
 		double[] myu = new double[d];
@@ -32,10 +39,7 @@ public class LinearAlgebra {
 		return myu;
 	}
 	
-	
-	
-	
-	
+		
 	
 	// uses the bayes-classificator to calculate the probability that
 	// a dataset is indeed member of a certain class if the expectation is known 
@@ -63,11 +67,7 @@ public class LinearAlgebra {
 
 	
 	
-
-	
-	
-	
-	// Calculates the probability that <from> is a member of <prototype> with Gauss
+	// Calculates the probability that a Dataset is a member of a Prototype with Gauss
 	public static void calculateExpectation(Relation r){
 		// init
 		double[] myu = LinearAlgebra.getMyu( r.prototype.getRelated() );
