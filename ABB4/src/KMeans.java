@@ -45,7 +45,6 @@ public class KMeans extends AbstractEM {
 					members.add(d);
 				}
 			}
-
 			
 			// test whether prototype has no associated members (bad luck!)
 			if(members.size() == 0){

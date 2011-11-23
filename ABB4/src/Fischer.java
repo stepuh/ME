@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import Jama.Matrix;
 
 
@@ -22,7 +24,6 @@ public class Fischer {
 		Matrix kovarB = protoB.s;
 		kovarB.print(16, 4);
 		
-		
 		Matrix myuA = new Matrix( protoA.features, 1);
 		System.out.println("myu A:");
 		myuA.print(16, 4);
@@ -39,11 +40,17 @@ public class Fischer {
 		System.out.println("myuA - myuB:");
 		diff.print(16, 4);
 		
-		double[][] result= sum.times(diff).getArray();
+		// get 2-dim array as temporarily result
+		double[][] tmpResult= sum.times(diff).getArray();
 		
-		//System.out.println("result vector: " + Arrays.toString(result[1]));
-			
-		return result[0];
+		// convert into 1 dimensional array as final result
+		double[] oneDimResult = new double[protoA.dim];
+		for(int i = 0; i < protoA.dim; i++){
+			oneDimResult[i] = tmpResult[i][0];
+		}
+		System.out.println("result vector: " + Arrays.toString(oneDimResult));
+		
+		return oneDimResult;
 	}
 	
 
