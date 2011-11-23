@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 /*
@@ -103,9 +103,11 @@ public class Database{
 		// calculate pi, myu, S for each prototype
 		for(Prototype p : prototypes){
 			p.calcPi();
+			//System.out.println("pi: " + p.pi);
 			p.features  = LinearAlgebra.getMyu(datasets);
-			System.out.println("myu: "+ Arrays.toString(p.features));
+			//System.out.println("myu: "+ Arrays.toString(p.features));
 			p.calcS();
+			//p.s.print(16,4);
 		}
 	} 
 

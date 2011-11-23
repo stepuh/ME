@@ -21,7 +21,7 @@ public class Client {
 		
 		// calculate fischer's discriminant
 		Fischer f = new Fischer(db);
-		f.getW(db.prototypes.get(0), db.prototypes.get(1));
+		f.getW(db.prototypes.get(0), db.prototypes.get(2));
 		
 
 	}
