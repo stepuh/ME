@@ -104,7 +104,7 @@ public class Database{
 		for(Prototype p : prototypes){
 			p.calcPi();
 			//System.out.println("pi: " + p.pi);
-			p.features  = LinearAlgebra.getMyu(datasets);
+			p.calcMyu();
 			//System.out.println("myu: "+ Arrays.toString(p.features));
 			p.calcS();
 			//p.s.print(16,4);

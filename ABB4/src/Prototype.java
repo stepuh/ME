@@ -45,6 +45,33 @@ public class Prototype extends Container{
 	
 	
 	
+	// Calculates the center point
+	public void calcMyu(){
+		// initialize 0-vector
+		double[] myu = new double[features.length];
+		for(int i = 0; i < features.length; i++){
+			myu[i] = 0.0;
+		}
+		
+		// sum over all related Datasets and their expectation	
+		double sumExpectation = 0.0;
+		for(Relation r : relations){
+			sumExpectation += r.probability;
+			for(int i = 0; i < features.length; i++){
+				myu[i] += r.dataset.features[i] * r.probability;
+			}
+		}
+		
+		// normalize
+		for(int i = 0; i < features.length; i++){
+			myu[i] = myu[i] / sumExpectation;
+		}
+		
+		features = myu;
+	}
+	
+	
+	
 	// Calculates the kovarianz matrix 
 	public void calcS(){
 		s = new Matrix(dim, dim);

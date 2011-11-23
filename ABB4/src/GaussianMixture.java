@@ -20,7 +20,7 @@ public class GaussianMixture extends AbstractEM{
 	void maximization() {
 		for( Prototype p : db.prototypes){
 			p.calcPi();
-			p.features = LinearAlgebra.getMyu(db.datasets);
+			p.calcMyu();
 			p.calcS();
 		}
 		identifyPrototypes();
@@ -35,6 +35,7 @@ public class GaussianMixture extends AbstractEM{
 	}
 
 
+	
 	// identifies each prototype's class by counting most appearing member class
 	public void identifyPrototypes() {
 		for (Prototype p : db.prototypes) {
