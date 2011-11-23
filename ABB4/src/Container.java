@@ -45,6 +45,7 @@ public abstract class Container {
 	// a member of the prototype's cluster
 	public double sumProbabilitys(){
 		double pr = 0.0;
+		System.out.println("#r: " + relations.size() );
 		for(Relation r : relations){
 			pr += r.probability;
 		}

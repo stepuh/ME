@@ -16,10 +16,11 @@ public class Client {
 		km.rounds = 10;
 		km.run();
 		
-		Fischer f = new Fischer(db);
-		f.initProtos();
-		//f.initializePrototypesPi();
+		// initialize so we can use Gauss
+		db.initGauss();
 		
+		// calculate fischer's discriminant
+		Fischer f = new Fischer(db);
 		f.getW(db.prototypes.get(0), db.prototypes.get(1));
 		
 

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /*
@@ -50,13 +51,13 @@ public class Database{
 			Prototype p = (Prototype) c;
 			prototypes.add( p );
 			for( Dataset d: datasets ){
-				addRelation( d, p );	
+				addRelation( d, p );
 			}
 		}else if( c instanceof Dataset ){
 			Dataset d = (Dataset) c;
 			datasets.add( d );
 			for( Prototype p: prototypes ){
-				addRelation( d, p );	
+				addRelation( d, p );
 			}
 		}else{
 			throw new Exception("Added something a subclass of Container i don't know! :(");
@@ -67,12 +68,45 @@ public class Database{
 	
 	
 	// create and bind a new relation
-	private void addRelation( Dataset d, Prototype p ){
+	private Relation addRelation( Dataset d, Prototype p ){
 		Relation r = new Relation( d, p);
 		p.relations.add(r);
 		d.relations.add(r);
 		relations.add( r );
+		return  r;
 	}
-
+	
+	
+	
+	/*
+	 *	If we want to calculate with Gauss and kovarianz matrices and so on
+	 *	we have the "who was first: egg or hen?" problem. 
+	 *	To solve this, we calculate first a normalized probability for
+	 *	each Dataset to be a member of a prototype's cluster. Here we
+	 *	use the euklidean distance to start at.
+	 *	Then we can calculate the pi, myu and S of each prototype.
+	 */
+	public void initGauss(){
+		// calculate distance for each dataset to each prototype
+		// and sum over it
+		double sumPr = 0.0;
+		for(Relation r : relations){
+			r.probability = r.dataset.getDistance(r.prototype);
+			sumPr += r.probability;
+		}
+		
+		// normalize the probabilities
+		for(Relation r : relations){
+			r.probability = r.probability / sumPr;
+		}
+		
+		// calculate pi, myu, S for each prototype
+		for(Prototype p : prototypes){
+			p.calcPi();
+			p.features  = LinearAlgebra.getMyu(datasets);
+			System.out.println("myu: "+ Arrays.toString(p.features));
+			p.calcS();
+		}
+	} 
 
 }
