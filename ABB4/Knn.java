@@ -3,70 +3,55 @@ import java.util.HashMap;
 import java.util.Set;
 
 
-/*
- * K-Means is an instance of the expectation maximization algorithm concept.
- * The idea is to classify each Dataset to be member of the prototype that is 
- * closest in terms of euklidean distance (expectation)
- * and to reposition each prototype to the center point of his cluster 
- * afterwards (maximization). 
- */
-public class KMeans extends AbstractEM {
+public class Knn extends AbstractEM{
+	Database db;
 	public int rounds;
 	
-	KMeans(Database db, int k) throws Exception{
+	
+	Knn(Database db, int k) throws Exception{
 		this.db = db;
-		this.dimensions = db.dimensions;
-		this.trainSize = db.datasets.size();
-		
-		db.addAll( generatePrototypes( k ));
+		db.addAll( generatePrototypes(k) );
+		rounds = 0;
 	}
+	
 
-	
-	
-	// Calculates for each Prototype the euklidean distance to each prototype 
+	// expectation = distance
 	void expectation() {
 		for( Relation r: db.relations){
 			r.distance = LinearAlgebra.distanceEuklid(r.dataset, r.prototype);
-		}
+			System.out.println(r.distance);
+			System.out.println("TEST");
+		}		
+		
 	}
 
-
-	
-	// Identifies the member of each prototype's cluster and repositions them
-	// to the cluster's center.
 	void maximization() {
 		identifyPrototypes();
 		
 		for(Prototype p: db.prototypes){
 			// Get members, don't use Bayes
-			ArrayList<Dataset> members = p.getMembers(false);
+			ArrayList<Dataset> members = p.getNearestMembers();
 			
 			// test whether prototype has no associated members 
 			if(members.size() == 0){
-				System.out.println("Keine Member");
 				p.reinitialize();
 			}else{
 				p.features = LinearAlgebra.getMyu(members);
 			}
 		}
-		
 	}
 
-	
-	
-	// breaking condition is a number of rounds
 	boolean condition() {
 		rounds++;
-		return 20 > rounds;
+		System.out.println(rounds);
+		return rounds < 10;
 	}
 
 
-	
-	// identifies each prototype's class by counting most appearing member class
-	public void identifyPrototypes() {
+	void identifyPrototypes() {
 		for (Prototype p : db.prototypes) {
-			// Get members, don't use Bayes
-			ArrayList<Dataset> members = p.getMembers(false);
+			// Get members, use Euklid
+			ArrayList<Dataset> members = p.getNearestMembers();
 
 			// Find out most appearing member class
 			HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
@@ -94,5 +79,7 @@ public class KMeans extends AbstractEM {
 			// Now the prototype knows the class that is represented by most of his members
 			p.correctKlass = bestKey;
 		}
+		
 	}
+
 }

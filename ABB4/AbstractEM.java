@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+	import java.util.ArrayList;
 
 
 /*
@@ -12,6 +12,7 @@ public abstract class AbstractEM {
 	Database db;		// set of train data
 	int dimensions;		// dimensions of each vector in train data
 	int trainSize;		// number of vectors in database 
+	
 	
 	
 	
@@ -41,7 +42,7 @@ public abstract class AbstractEM {
 	// The expectation maximization algorithm runs as long as a break condition resolves true
 	public void run(){
 		// till terminate
-		while( condition()){
+		while( condition() ){
 			runRound();
 		}
 	}

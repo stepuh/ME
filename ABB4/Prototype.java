@@ -117,6 +117,16 @@ public class Prototype extends Container{
 		return members;
 	}
 	
+	public ArrayList<Dataset> getNearestMembers(){
+		ArrayList<Dataset> members = new ArrayList<Dataset>();
+		for( Relation r: relations){
+			if( r.dataset.getNearestEuklid() == this){
+				members.add(r.dataset);
+			}
+		}
+		return members;
+	}
+	
 	// Repositions the prototype randomly
 	public void reinitialize(){
 		for(int i=0; i<features.length; i++){

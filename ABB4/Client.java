@@ -9,8 +9,6 @@ public class Client {
 
 		
 		Database db = new Database(training);
-
-	
 		
 		// we want to have k clusters
 		int k = 10;

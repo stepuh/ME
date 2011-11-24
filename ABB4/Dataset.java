@@ -55,4 +55,15 @@ public class Dataset extends Container{
 		}
 		return mostProbable.prototype;
 	}
+	
+	public Prototype getNearestEuklid(){
+		Relation nearest = relations.get(0);
+		for(Relation r: relations){
+			if( nearest.distance > r.distance){
+				nearest = r;
+			}
+		}
+		return nearest.prototype;
+		
+	}
 }
