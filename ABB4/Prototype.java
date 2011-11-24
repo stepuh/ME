@@ -97,7 +97,25 @@ public class Prototype extends Container{
 		s = s.times(1.0/sum);
 	}
 
-	
+	// get the list of Datasets that's probability associate them with this prototype
+	public ArrayList<Dataset> getMembers(boolean bayes){
+		
+		ArrayList<Dataset> members = new ArrayList<Dataset>();
+		if( bayes ){
+			for(Relation r: relations){
+				if( r.dataset.getMostProbableBayes() == this ){
+					members.add(r.dataset);
+				}
+			}
+		}else{
+			for(Relation r: relations){
+				if( r.dataset.getMostProbable() == this ){
+					members.add(r.dataset);
+				}
+			}
+		}
+		return members;
+	}
 	
 	// Repositions the prototype randomly
 	public void reinitialize(){

@@ -38,15 +38,10 @@ public class KMeans extends AbstractEM {
 		identifyPrototypes();
 		
 		for(Prototype p: db.prototypes){
-			// Get members
-			ArrayList<Dataset> members = new ArrayList<Dataset>();
-			for(Dataset d: db.datasets){
-				if(d.getMostProbable() == p){
-					members.add(d);
-				}
-			}
+			// Get members, don't use Bayes
+			ArrayList<Dataset> members = p.getMembers(false);
 			
-			// test whether prototype has no associated members (bad luck!)
+			// test whether prototype has no associated members 
 			if(members.size() == 0){
 				p.reinitialize();
 			}else{
@@ -69,17 +64,12 @@ public class KMeans extends AbstractEM {
 	// identifies each prototype's class by counting most appearing member class
 	public void identifyPrototypes() {
 		for (Prototype p : db.prototypes) {
-			// Create List of members
-			ArrayList<Dataset> memberList = new ArrayList<Dataset>();
-			for (Dataset d : db.datasets) {
-				if(d.getMostProbable() == p){
-					memberList.add(d);
-				}
-			}
+			// Get members, don't use Bayes
+			ArrayList<Dataset> members = p.getMembers(false);
 
 			// Find out most appearing member class
 			HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
-			for(Dataset d : memberList){
+			for(Dataset d : members){
 				if (hm.containsKey(d.correctKlass)) {
 					Integer tmp = hm.get(d.correctKlass);
 					hm.put(d.correctKlass, tmp + 1);

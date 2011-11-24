@@ -39,17 +39,12 @@ public class GaussianMixture extends AbstractEM{
 	// identifies each prototype's class by counting most appearing member class
 	public void identifyPrototypes() {
 		for (Prototype p : db.prototypes) {
-			// Create List of members
-			ArrayList<Dataset> memberList = new ArrayList<Dataset>();
-			for (Dataset d : db.datasets) {
-				if(d.getMostProbableBayes() == p){
-					memberList.add(d);
-				}
-			}
+			// Get Members, with bayes
+			ArrayList<Dataset> members = p.getMembers(true);
 
 			// Find out most appearing member class
 			HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
-			for(Dataset d : memberList){
+			for(Dataset d : members){
 				if (hm.containsKey(d.correctKlass)) {
 					Integer tmp = hm.get(d.correctKlass);
 					hm.put(d.correctKlass, tmp + 1);
