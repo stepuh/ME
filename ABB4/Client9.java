@@ -12,8 +12,8 @@ public class Client9 {
 		LinearModel lm = new LinearModel(db);
 		
 		// Teste für alle Klassen
-		for(int k=1; k<= 10; k++){
-			System.out.println( "Klasse "+k+" Erfolgsrate: "+lm.testClass(1) );
+		for(int k=0; k< 10; k++){
+			System.out.println( "Klasse "+k+" Erfolgsrate: "+lm.testClass(k) );
 		}
 	}
 
