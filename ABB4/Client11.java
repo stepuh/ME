@@ -20,24 +20,19 @@ public class Client11 {
 		
 
 		// initialize so we can use Gauss
-		for(Prototype p: db.prototypes){
-			System.out.println(p.correctKlass);
-		}
+
 		
 		db.initGauss();
-		for(Prototype p: db.prototypes){
-			System.out.println(p.correctKlass);
-		}
-		
+
 		// calculate fischer's discriminant
-//		Fischer f = new Fischer(db);
-//		
-//		for(int i= 0; i<10; i++){
-//			Prototype proto = db.prototypes.get(i);
-//			Dataset data = db.datasets.get(0);
-//			boolean klass = f.getKlass(proto, data); // true: same class, false: different class
-//			System.out.println(klass+" "+data.correctKlass+" "+proto.correctKlass);
-//		}
+		Fischer f = new Fischer(db);
+		
+		for(int i= 0; i<30; i++){
+			Prototype proto = db.prototypes.get(0);
+			Dataset data = db.datasets.get(i);
+			boolean klass = f.getKlass(proto, data); // true: same class, false: different class
+			System.out.println(klass+" "+data.correctKlass+" "+proto.correctKlass);
+		}
 
 	
 	
