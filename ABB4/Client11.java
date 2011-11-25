@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import Jama.Matrix;
+
 public class Client11 {
 	
 	
@@ -27,13 +29,32 @@ public class Client11 {
 		// calculate fischer's discriminant
 		Fischer f = new Fischer(db);
 		System.out.println("Running Fischers Discriminant. Please wait!");
-		for(int i= 0; i<30; i++){
-			Prototype proto = db.prototypes.get(0);
-			Dataset data = db.datasets.get(i);
-			boolean klass = f.getKlass(proto, data); // true: same class, false: different class
-			System.out.println(klass+" "+data.correctKlass+" "+proto.correctKlass);
+		for(Prototype p: db.prototypes){
+			int erfolge=0;
+			
+			// get w
+			Matrix w = new Matrix(f.getW(p),1);
+			// projeziere die myus auf w
+			Matrix myuA = new Matrix( p.features, 1);
+			Matrix myuB = new Matrix( f.getGegenMyu(p), 1);
+			double myuAproj = myuA.transpose().times(w).getArray()[0][0];
+			double myuBproj = myuB.transpose().times(w).getArray()[0][0];
+			
+			boolean AgroesserB = (myuAproj > myuBproj);
+
+			// schwellwert in easy
+			double schwell = ((myuAproj + myuBproj)/2);
+			
+			
+			for(Dataset d: db.datasets){
+				boolean klass = f.getKlass(AgroesserB, schwell, w, d);
+				if(klass && p.correctKlass == d.correctKlass){
+					erfolge++;
+				}
+			}
+			System.out.println("Prototype "+p.correctKlass+" - Erfolgsrate:"+(double)erfolge/db.datasets.size());
+			
 		}
-		
 
 	}
 }

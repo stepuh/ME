@@ -66,7 +66,6 @@ public class KMeans extends AbstractEM {
 		for (Prototype p : db.prototypes) {
 			// Get members, don't use Bayes
 			ArrayList<Dataset> members = p.getNearestMembers();
-			System.out.println("members" + members.size());
 			// Find out most appearing member class
 			HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
 			for(Dataset d : members){

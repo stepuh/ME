@@ -14,7 +14,7 @@ public class Fischer {
 	
 
 	
-	private Matrix getGegenS(Prototype p){
+	public Matrix getGegenS(Prototype p){
 		// Gegenklasse der Members finden
 		ArrayList<Dataset> nonMembers = new ArrayList<Dataset>();
 		for(Dataset d: db.datasets){
@@ -48,7 +48,7 @@ public class Fischer {
 
 	}
 	
-	private double[] getGegenMyu(Prototype p){
+	public double[] getGegenMyu(Prototype p){
 		// Gegenklasse der Members finden
 		ArrayList<Dataset> nonMembers = new ArrayList<Dataset>();
 		for(Dataset d: db.datasets){
@@ -85,11 +85,32 @@ public class Fischer {
 		double[] w = new double[p.dim];
 		for(int i = 0; i < p.dim; i++){
 			w[i] = tmpResult[i][0];
-		}
-		System.out.println("result vector: " + Arrays.toString(w));
-		
+		}		
 		return w;
 		
+	}
+	
+	
+	public boolean getKlass(boolean AgroesserB, double schwell, Matrix w, Dataset d){
+		
+		// projeziere d auf w und pr�fe den schwellwert!
+		Matrix dVector = new Matrix(d.features,1);
+		double dProj = dVector.transpose().times(w).getArray()[0][0];
+		
+		if( dProj > schwell){
+			if(AgroesserB){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			if(AgroesserB){
+				return false;
+			}else{
+				return true;
+			}
+		}
+
 	}
 	
 	
