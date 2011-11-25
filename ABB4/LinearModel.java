@@ -6,10 +6,15 @@ public class LinearModel {
 	Matrix x;
 	
 	
-	
 	LinearModel( Database db ){
 		this.db = db;
-		
+		this.calcX();
+	}
+	
+	
+	
+	// Calculates and returns the matrix X 
+	private void calcX(){
 		// get X
 		double[][] x = new double[ db.datasets.size() ] [ db.dimensions ];
 		for(int i=0; i<db.datasets.size(); i++){
@@ -20,6 +25,7 @@ public class LinearModel {
 		}
 		this.x = new Matrix( x );
 	}
+	
 	
 	
 	

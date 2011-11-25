@@ -14,6 +14,23 @@ public class KNN {
 	
 	
 	
+	public double testClass(int c, int k){
+		// get all Datasets of one class
+		double count = 0.0;
+		double countCorrect = 0.0;
+		for(Dataset d : db.datasets){
+			if(d.correctKlass == c){
+				count++;
+				if(d.correctKlass == classifyWithKNN(d, k)){
+					countCorrect++;
+				}
+			}
+		}
+		return countCorrect / count;
+	}
+	
+	
+		
 	// Returns the most appearing class of k neighbors
 	public int classifyWithKNN(Dataset d, int k){
 		ArrayList<Dataset> neighbors = getKNN(d, k);
@@ -22,23 +39,23 @@ public class KNN {
 	
 	
 	
-	// Returns the k nearest neighbor-datasets of the database
+	// Returns the k nearest neighbor-datasets for Dataset d
 	private ArrayList<Dataset> getKNN(Dataset d, int k){
 		// create list of neighbours
 		ArrayList<Dataset> neighbors = new ArrayList<Dataset>();
-		for(Relation r : db.relations){
-			if(r.dataset != d){
+		for(Dataset current : db.datasets){
+			if(current != d){
 				// Check whether there is still enough space in member list
 				if (neighbors.size() < k){
-					neighbors.add(r.dataset);
+					neighbors.add(current);
 				}else{
 					// check if relations distance is smaller than currently found member's distance
-					double tempDist = d.getDistance(r.dataset);
+					double tempDist = d.getDistance(current);
 					for(Dataset n : neighbors){
-						// if we found a neighbor whom's distance is larger we replace it
-						if (tempDist < n.getDistance(r.dataset)){
+						// if we found a neighbor whom's distance is larger we replace him
+						if (tempDist < n.getDistance(d)){
 							neighbors.remove(n);
-							neighbors.add(d);
+							neighbors.add(current);
 							break;
 						}
 					}
