@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import Jama.Matrix;
 
 
@@ -105,26 +104,26 @@ public class Fischer {
 		double myuAproj = myuA.transpose().times(w).getArray()[0][0];
 		double myuBproj = myuB.transpose().times(w).getArray()[0][0];
 		
-		// welches ist grš§er? 1: proto, 2: gegenklasse
+		// welches ist grï¿½ï¿½er? 1: proto, 2: gegenklasse
 
 		// schwellwert in easy
 		double schwell = ((myuAproj + myuBproj)/2);
 		
-		// projeziere d auf w und prŸfe den schwellwert!
+		// projeziere d auf w und prï¿½fe den schwellwert!
 		Matrix dVector = new Matrix(d.features,1);
 		double dProj = dVector.transpose().times(w).getArray()[0][0];
 		
 		if( dProj > schwell){
 			if(myuAproj > myuBproj){
-				return false;
-			}else{
 				return true;
+			}else{
+				return false;
 			}
 		}else{
 			if(myuAproj > myuBproj){
-				return true;
-			}else{
 				return false;
+			}else{
+				return true;
 			}
 		}
 

@@ -26,17 +26,13 @@ public class Client11 {
 
 		// calculate fischer's discriminant
 		Fischer f = new Fischer(db);
-		
+		System.out.println("Running Fischers Discriminant. Please wait!");
 		for(int i= 0; i<30; i++){
 			Prototype proto = db.prototypes.get(0);
 			Dataset data = db.datasets.get(i);
 			boolean klass = f.getKlass(proto, data); // true: same class, false: different class
 			System.out.println(klass+" "+data.correctKlass+" "+proto.correctKlass);
 		}
-
-	
-	
-		
 		
 
 	}
