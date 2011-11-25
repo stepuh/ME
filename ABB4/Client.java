@@ -27,6 +27,10 @@ public class Client {
 		f.getW(db.prototypes.get(0), db.prototypes.get(1));
 		
 		
+		KNN myKNN = new KNN(db);
+		//int klasse = myKNN.classifyWithKNN(bla, k)
+		
+		
 
 	}
 }

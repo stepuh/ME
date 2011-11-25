@@ -97,6 +97,8 @@ public class Prototype extends Container{
 		s = s.times(1.0/sum);
 	}
 
+	
+	
 	// get the list of Datasets that's probability associate them with this prototype
 	public ArrayList<Dataset> getMembers(boolean bayes){
 		
@@ -117,6 +119,9 @@ public class Prototype extends Container{
 		return members;
 	}
 	
+	
+	
+	// Returns the nearest related Dataset in terms of euklidean distance
 	public ArrayList<Dataset> getNearestMembers(){
 		ArrayList<Dataset> members = new ArrayList<Dataset>();
 		for( Relation r: relations){
@@ -126,6 +131,8 @@ public class Prototype extends Container{
 		}
 		return members;
 	}
+	
+	
 	
 	// Repositions the prototype randomly
 	public void reinitialize(){
