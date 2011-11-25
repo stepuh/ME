@@ -43,7 +43,6 @@ public class KMeans extends AbstractEM {
 			
 			// test whether prototype has no associated members 
 			if(members.size() == 0){
-				System.out.println("Keine Member");
 				p.reinitialize();
 			}else{
 				p.features = LinearAlgebra.getMyu(members);

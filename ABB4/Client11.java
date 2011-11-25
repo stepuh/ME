@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Client {
+public class Client11 {
 	
 	
 	public static void main(String[] args) throws Exception{
@@ -20,15 +20,27 @@ public class Client {
 		
 
 		// initialize so we can use Gauss
+		for(Prototype p: db.prototypes){
+			System.out.println(p.correctKlass);
+		}
+		
 		db.initGauss();
+		for(Prototype p: db.prototypes){
+			System.out.println(p.correctKlass);
+		}
 		
 		// calculate fischer's discriminant
-		Fischer f = new Fischer(db);
-		//f.getW(db.prototypes.get(0), db.prototypes.get(1));
-		
-		
-		KNN myKNN = new KNN(db);
-		//int klasse = myKNN.classifyWithKNN(bla, k)
+//		Fischer f = new Fischer(db);
+//		
+//		for(int i= 0; i<10; i++){
+//			Prototype proto = db.prototypes.get(i);
+//			Dataset data = db.datasets.get(0);
+//			boolean klass = f.getKlass(proto, data); // true: same class, false: different class
+//			System.out.println(klass+" "+data.correctKlass+" "+proto.correctKlass);
+//		}
+
+	
+	
 		
 		
 
