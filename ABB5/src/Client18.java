@@ -2,6 +2,7 @@ package src;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Client18 {
@@ -39,8 +40,22 @@ public class Client18 {
 		for(Dataset d: training){
 			muster.add(new Muster( d.features, getUnary(d.correctKlass)));
 		}
-		
+		// lernen
 		netz.lernen_all(muster);
+		
+		// testen
+		ArrayList<Dataset> testen = new Reader("testing.txt").getDatasets();
+		int erfolg = 0;
+		for(Dataset d:testen){
+			double[] soll = getUnary(d.correctKlass);
+			Muster m = new Muster(d.features, soll);
+			double[] ergebnis = netz.ergebnisZuMuster(m);
+			if( soll.equals(ergebnis)){
+				erfolg++;
+			}
+		}
+		System.out.println(erfolg/(double)testen.size());
+		
 	}
 
 }
