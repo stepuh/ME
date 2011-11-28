@@ -1,5 +1,3 @@
-package Perzeptron;
-
 import java.util.LinkedList;
 
 public class Neuron {

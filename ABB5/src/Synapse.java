@@ -1,4 +1,3 @@
-package Perzeptron;
 
 public class Synapse {
 

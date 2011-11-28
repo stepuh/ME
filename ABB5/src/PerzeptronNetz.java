@@ -1,5 +1,3 @@
-package Perzeptron;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -65,12 +63,17 @@ public class PerzeptronNetz {
 	
 	
 	// Das Netz lernt nach der Delta-Regel
-	public void lernen_all(LinkedList<Muster> muster){
+	public int lernen_all(LinkedList<Muster> muster){
 		double lernfaktor = 0.2;
 		boolean failed = true;
+		// sollte er laenger brauchen, um dieses Muster zu lernen, ist es wahrscheinlich nicht linear trennbar
+		int maxIterationen = 10000;		 
+		int currentIteration = 0;
 		
-		while(failed){
+		while(failed && currentIteration < maxIterationen){
 			failed = false;
+			currentIteration++;
+			
 			for(Muster m : muster){
 				// Muster auf Netz uebertragen
 				for(int i = 0; i < m.input.length; i++){
@@ -94,6 +97,9 @@ public class PerzeptronNetz {
 
 			}//for
 		}//while
+		
+		// Liefere die Anzahl benoetigter Lernschritte, um das Muster zu erlernen
+		return currentIteration;
 	}
 	
 	
@@ -115,7 +121,8 @@ public class PerzeptronNetz {
 	}
 	
 	
-	// Das Netz liefert das Ergebnis zu einem Muster
+	
+	// Das Netz liefert das Ergebnis zu einer Menge von Mustern
 	public void ergebnisZuMuster_all(LinkedList<Muster> muster){
 		for (Muster m : muster){
 			// Muster auf Netz uebertragen
