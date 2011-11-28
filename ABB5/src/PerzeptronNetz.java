@@ -33,8 +33,11 @@ public class PerzeptronNetz {
 	
 	
 	
-	// Das Netz lernt nach der Delta-Regel
-	public void lernen(Muster m){
+	// Das Netz lernt nach der Delta-Regel für genau einen Lernschritt und gibt zurueck, 
+	// ob das Neuron nun das gewuenschte Ergebnis liefert.
+	public boolean lernen(Muster m){
+		boolean failed = false;
+		
 		// Muster auf Netz uebertragen
 		for(int i = 0; i < m.input.length; i++){
 			inputNeuronen.get(i).standard_output = m.input[i];
@@ -52,19 +55,21 @@ public class PerzeptronNetz {
 		double lernfaktor = 0.2;
 		for(int i=0; i<outputNeuronen.size(); i++){
 			if (ergebnis[i] != m.teaching[i]){
+				failed = true;
 				for (Synapse s : outputNeuronen.get(i).dendriten){
 					s.gewicht = s.gewicht + lernfaktor * s.von.out() * err[i];
 				}
 			}
 		}
 		
+		// Liefert, ob das Neuron nun korrekt arbeitet
+		return failed;
 	}
 	
 	
 	
-	// Das Netz lernt nach der Delta-Regel
+	// Das Netz lernt nach der Delta-Regel eine Menge von Muster
 	public int lernen_all(LinkedList<Muster> muster){
-		double lernfaktor = 0.2;
 		boolean failed = true;
 		// sollte er laenger brauchen, um dieses Muster zu lernen, ist es wahrscheinlich nicht linear trennbar
 		int maxIterationen = 10000;		 
@@ -75,28 +80,9 @@ public class PerzeptronNetz {
 			currentIteration++;
 			
 			for(Muster m : muster){
-				// Muster auf Netz uebertragen
-				for(int i = 0; i < m.input.length; i++){
-					inputNeuronen.get(i).standard_output = m.input[i];
-				}
-		
-				// Ergebnisse und Error-Werte ausrechnen - ggf. Gewichte anpassen
-				double[] ergebnis = new double[outputNeuronen.size()];
-				double[] err = new double[outputNeuronen.size()];
-				for(int i=0; i<outputNeuronen.size(); i++){
-					ergebnis[i] = outputNeuronen.get(i).out();
-					err[i] = m.teaching[i] - ergebnis[i];
-
-					if (ergebnis[i] != m.teaching[i]){
-						failed = true;
-						for (Synapse s : outputNeuronen.get(i).dendriten){
-							s.gewicht = s.gewicht + lernfaktor * s.von.out() * err[i];
-						}
-					}
-				}
-
-			}//for
-		}//while
+				failed = lernen(m);
+			}
+		}
 		
 		// Liefere die Anzahl benoetigter Lernschritte, um das Muster zu erlernen
 		return currentIteration;
