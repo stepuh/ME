@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class PerzeptronNetz {
@@ -117,7 +118,7 @@ public class PerzeptronNetz {
 				ergebnis[i] = outputNeuronen.get(i).out();
 			}
 
-			Test.arrayOut(ergebnis);
+			System.out.println(Arrays.toString(ergebnis));
 		}
 	}
 
