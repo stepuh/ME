@@ -1,3 +1,4 @@
+package src;
 
 public class Synapse {
 
@@ -7,10 +8,10 @@ public class Synapse {
 	public double gewicht;
 
 	// Konstruktor
-	public Synapse(Neuron von, Neuron zu, double gewicht){
+	public Synapse(Neuron von, Neuron zu, double gewicht) {
 		this.von = von;
 		this.zu = zu;
 		this.gewicht = gewicht;
 	}
-	
+
 }
