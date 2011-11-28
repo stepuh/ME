@@ -43,7 +43,21 @@ public class Client18 {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-		ArrayList<Dataset> training = new Reader("testing.txt").getDatasets();
+		// Daten lesen und normieren
+		ArrayList<Dataset> training = new Reader("training.txt").getDatasets();
+		for(Dataset d: training){
+			for(int i = 0; i<d.features.length; i++){
+				d.features[i] /= 100;
+			}
+		}
+		ArrayList<Dataset> testen = new Reader("testing.txt").getDatasets();
+		for(Dataset d: testen){
+			for(int i = 0; i<d.features.length; i++){
+				d.features[i] /= 100;
+			}
+		}
+		
+		
 		PerzeptronNetz netz = new PerzeptronNetz(16,10);
 		LinkedList<Muster> muster = new LinkedList<Muster>();
 		
@@ -55,7 +69,6 @@ public class Client18 {
 		System.out.println("gelernt in " + it + " Lernschritten.");
 		
 		// testen
-		ArrayList<Dataset> testen = new Reader("training.txt").getDatasets();
 		int erfolg = 0;
 		for(Dataset d:testen){
 			double[] soll = getUnary(d.correctKlass);
