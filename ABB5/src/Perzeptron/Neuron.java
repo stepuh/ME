@@ -6,8 +6,8 @@ public class Neuron {
 
 	// Attribute
 	public LinkedList<Synapse> dendriten = new LinkedList<Synapse>();	// Input - Synapsen 
-	public double standard_output;
-	public double bias = 0.5;											// Schwellenwert
+	public double standard_output;										// Output, wenn es keine Dendriten gibt
+	public double bias = 0.5;											// Schwellenwert, ab dem Neuron feuert
 
 	
 	
@@ -18,21 +18,23 @@ public class Neuron {
 	}
 
 	
+	
 	// Propagierfunktion
 	public double net(){
 		// keine Dendriten -> Eingabeschicht
 		if (dendriten.size() == 0){
 			return standard_output;
+
+		// Dendriten existieren -> Summiere Signale
 		}else{
 			double wert = 0.0;		
 			for(Synapse s : dendriten){
 				wert = wert + s.von.out() * s.gewicht;
 			}
-//			System.out.println(wert);
 			return wert;
-			
 		}
 	}
+	
 	
 	
 	// Aktivitaetsfunktion
@@ -43,6 +45,7 @@ public class Neuron {
 			return 0;
 		}
 	} 
+	
 	
 	
 	// Ausgabefunktion
