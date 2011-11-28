@@ -10,6 +10,8 @@ public class PerzeptronNetz {
 	public LinkedList<Neuron> inputNeuronen = new LinkedList<Neuron>();
 	public LinkedList<Neuron> outputNeuronen = new LinkedList<Neuron>();
 
+	
+	
 	// Konstruktor
 	public PerzeptronNetz(int in, int out) {
 		// Input-Neuronen erstellen
@@ -27,11 +29,14 @@ public class PerzeptronNetz {
 		// Neuronen vernetzen
 		for (Neuron input : inputNeuronen) {
 			for (Neuron output : outputNeuronen) {
-				input.erstelleSynapse(output, 0.0);
+				double gewicht = Math.random();				
+				input.erstelleSynapse(output, gewicht);
 			}
 		}
 	}
 
+	
+	
 	// Das Netz lernt nach der Delta-Regel für genau einen Lernschritt und gibt
 	// zurueck,
 	// ob das Neuron nun das gewuenschte Ergebnis liefert.
@@ -52,7 +57,7 @@ public class PerzeptronNetz {
 		}
 
 		// Delta-Regel
-		double lernfaktor = 0.2;
+		double lernfaktor = 0.1;
 		for (int i = 0; i < outputNeuronen.size(); i++) {
 			if (ergebnis[i] != m.teaching[i]) {
 				failed = true;
@@ -61,17 +66,19 @@ public class PerzeptronNetz {
 				}
 			}
 		}
-
+		
 		// Liefert, ob das Neuron nun korrekt arbeitet
 		return failed;
 	}
 
+	
+	
 	// Das Netz lernt nach der Delta-Regel eine Menge von Muster
 	public int lernen_all(LinkedList<Muster> muster) {
 		boolean failed = true;
 		// sollte er laenger brauchen, um dieses Muster zu lernen, ist es
 		// wahrscheinlich nicht linear trennbar
-		int maxIterationen = 10000;
+		int maxIterationen = 1000;
 		int currentIteration = 0;
 
 		while (failed && currentIteration < maxIterationen) {
@@ -79,15 +86,26 @@ public class PerzeptronNetz {
 			currentIteration++;
 
 			for (Muster m : muster) {
-				failed = lernen(m);
+				boolean thisFailed = lernen(m);
+				if (thisFailed){
+					failed = true;
+				}
 			}
 		}
 
 		// Liefere die Anzahl benoetigter Lernschritte, um das Muster zu
 		// erlernen
+		
+		if (currentIteration > maxIterationen - 5 ){
+			System.out.println("FAIL!");
+		}
+		
 		return currentIteration;
 	}
 
+	
+
+	
 	// Das Netz liefert das Ergebnis zu einem Muster
 	public double[] ergebnisZuMuster(Muster m) {
 		// Muster auf Netz uebertragen
@@ -104,6 +122,8 @@ public class PerzeptronNetz {
 		return ergebnis;
 	}
 
+	
+	
 	// Das Netz liefert das Ergebnis zu einer Menge von Mustern
 	public void ergebnisZuMuster_all(LinkedList<Muster> muster) {
 		for (Muster m : muster) {
