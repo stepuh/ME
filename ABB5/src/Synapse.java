@@ -13,5 +13,4 @@ public class Synapse {
 		this.zu = zu;
 		this.gewicht = gewicht;
 	}
-
 }

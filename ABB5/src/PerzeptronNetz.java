@@ -104,6 +104,71 @@ public class PerzeptronNetz {
 	}
 
 	
+	
+	// Das Netz lernt nach der Delta-Regel eine Menge von Muster
+	public int pocket_lernen(LinkedList<Muster> muster) {
+		int failes = 1;
+		int minFailes = 100000;
+		double[][] besteGewichte = new double[inputNeuronen.size()][outputNeuronen.size()];
+		
+		// sollte er laenger brauchen, um dieses Muster zu lernen, ist es
+		// wahrscheinlich nicht linear trennbar
+		int maxIterationen = 1000;
+		int currentIteration = 0;
+
+		while (failes > 0 && currentIteration < maxIterationen) {
+			currentIteration++;
+			failes = 0;
+			
+			// Veraendere die Gewichte fuer alle Muster
+			for (Muster m : muster) {
+				boolean thisFailed = lernen(m);
+				if (thisFailed){
+					failes++;
+				}
+			}
+
+			// War dieser Durchlauf besser als die davor?
+			// Wenn ja, dann speichere dir die Gewichte.
+			if (failes < minFailes){
+				minFailes = failes;
+				int iCount = 0;
+				int oCount = 0;
+
+				for(Neuron o : outputNeuronen){
+					for(Synapse s : o.dendriten){
+						besteGewichte[iCount][oCount] = s.gewicht; 
+						iCount++;
+					}
+					iCount=0;
+					oCount++;
+				}
+				
+			}
+		
+		}
+
+		// Nutze die gespeicherten Gewichte, sollte der Algorithmus nicht terminiert sein
+		if (currentIteration >= maxIterationen){
+			int iCount = 0;
+			int oCount = 0;
+			for(Neuron o : outputNeuronen){
+				for(Synapse s : o.dendriten){
+					s.gewicht = besteGewichte[iCount][oCount]; 
+					iCount++;
+				}
+				iCount=0;
+				oCount++;
+			}
+			
+		}
+		
+		
+		// Liefere die Anzahl benoetigter Lernschritte, um das Muster zu
+		// erlernen
+		return currentIteration;
+	}
+		
 
 	
 	// Das Netz liefert das Ergebnis zu einem Muster
