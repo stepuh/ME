@@ -20,6 +20,12 @@ public class RandomDecisionTree {
 		}
 		
 		// hier kommt der eigentliche Aufbau des Baumes
-		
+	}
+	
+	private double getEntropy(int attribut, ArrayList<Dataset> buildSet){
+		return 0.0;
+	}
+	private double getGain(int attribut, ArrayList<Dataset> buildSet){
+		return 0.0;
 	}
 }
