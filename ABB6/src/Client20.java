@@ -6,8 +6,19 @@ public class Client20 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
-		int threadsN = 100;
+		int threadsN = 1000;
 		int smallN = 10;
+		
+		// do preprocessing: remove Datasets with class -1
+		ArrayList<Dataset> pollutedDatasets = new ArrayList<Dataset>();
+		for(Dataset d: training){
+			if( -1 == d.correctKlass ){
+				pollutedDatasets.add(d);
+			}
+		}
+		training.removeAll(pollutedDatasets);
+		
+		
 		
 		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
 		
@@ -18,11 +29,13 @@ public class Client20 {
 			t.start();
 			threads.add(t);
 		}
+		
+		// block till every tree is fully grown :)
 		for(AddTreeThread t: threads){
-			t.join(); // block till every tree is fully grown :)
+			t.join(); 
 		}
 		
-		System.out.println(forest.size());
+		System.out.println("Forest size: "+forest.size());
 
 
 
