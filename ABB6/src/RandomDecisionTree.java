@@ -1,12 +1,22 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class RandomDecisionTree {
 	double entropyS;
 	ArrayList<Dataset> s;
+	
+	private Node root;
+
+    private class Node {
+        private double value;
+        private Node parent;
+        private List<Node> children;
+    }
+	
 	
 	RandomDecisionTree(ArrayList<Dataset> training, int smallN ){
 		int bigN = training.size();
@@ -35,6 +45,10 @@ public class RandomDecisionTree {
 		
 		int firstAttr = getBestAttribute(attributes);
 		System.out.println("Attribute: "+firstAttr);
+		
+		root = new Node();
+       // root.value = rootValue;
+        root.children = new ArrayList<Node>();
 	}
 	
 	private double getEntropy(ArrayList<Dataset> data){
