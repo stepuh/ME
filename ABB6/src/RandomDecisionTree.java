@@ -8,19 +8,65 @@ import java.util.Set;
 public class RandomDecisionTree {
 	double entropyS;
 	ArrayList<Dataset> s;
+	int smallM;
+	int bigN;
+	int bigM;
+	
 	
 	private Node root;
 
     private class Node {
-        private double value;
+
         private Node parent;
         private List<Node> children;
+        int splitAttr;
+        int klass;
+        
+        public Node(ArrayList<Dataset> matchingData, HashSet<Integer> usedAttributes){
+    		
+        	HashMap<Integer, Integer> klassProperties = getKlassProperties(matchingData);
+
+    		if(usedAttributes.size() == smallM || 1 == klassProperties.keySet().size() ){
+    			// ich bin blatt
+    			klass = -1;
+    			int bestValue = -1;
+    			for(Integer key: klassProperties.keySet()){
+    				int tmp = (int) klassProperties.get(key);
+    				if( tmp > bestValue){
+    					klass = (int) key;
+    					bestValue = tmp;
+    				}
+    			}
+    			
+    		System.out.println("blatt!");	
+    			
+    		}else{
+    			// ich bin knoten
+	        	HashSet<Integer> tmpAttributes = getTmpAttr( usedAttributes );
+	    		
+	    		
+	    		splitAttr = getBestAttribute(tmpAttributes);
+	    		
+	    		
+	    		usedAttributes.add(new Integer(splitAttr));
+	    		   		
+	    		HashSet<Double> values = getValues(matchingData, splitAttr);
+	            children = new ArrayList<Node>();
+	            for(Double value: values){
+	            	Node child = new Node( getSv(matchingData, value, splitAttr), usedAttributes );
+	            	child.parent = this;
+	            	children.add( child );
+	            }
+    		}
+        }
+
     }
 	
 	
-	RandomDecisionTree(ArrayList<Dataset> training, int smallN ){
-		int bigN = training.size();
-		int dim  = training.get(0).dim;
+	RandomDecisionTree(ArrayList<Dataset> training, int smallM ){
+		this.smallM = smallM;
+		this.bigN = training.size();
+		this.bigM  = training.get(0).features.length;
 		
 		// baue eine zufällige Menge S mit zurücklegen
 		s = new ArrayList<Dataset>();
@@ -28,49 +74,41 @@ public class RandomDecisionTree {
 			s.add( training.get( (int) (Math.random()*bigN) ) ); // ziehen mit zurücklegen
 		}
 		
-		// Wähle zufällig smallN _verschiedene_ Attribute,
-		HashSet<Integer> attributes = new HashSet<Integer>();
-		for(int i=0; i< smallN; i++){
-			boolean doItAgain = true;
-			while(doItAgain){
-				if(attributes.add( new Integer( (int) (Math.random()*dim) ) ) ){
-					doItAgain = false;
-				}
-			}
-		}
-
-		
 		// hier kommt der eigentliche Aufbau des Baumes
 		entropyS = getEntropy(s);
 		
-		int firstAttr = getBestAttribute(attributes);
-		System.out.println("Attribute: "+firstAttr);
+		HashSet<Integer> usedAttributes = new HashSet<Integer>(); // leere Menge {}!!
+		root = new Node( s, usedAttributes );
 		
-		root = new Node();
-       // root.value = rootValue;
-        root.children = new ArrayList<Node>();
 	}
 	
-	private double getEntropy(ArrayList<Dataset> data){
-		HashMap<Integer, Integer> klassProportions = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> getKlassProperties(ArrayList<Dataset> data){
+		HashMap<Integer, Integer> klassProperties = new HashMap<Integer, Integer>();
 		for(Dataset d: data){
 			Integer klass = d.correctKlass;		
 			// increment if klass exists
-			if(klassProportions.containsKey( klass ) ){
-				Integer tmp = klassProportions.get(klass);
+			if(klassProperties.containsKey( klass ) ){
+				Integer tmp = klassProperties.get(klass);
 				tmp++;
-				klassProportions.put(klass, tmp);
+				klassProperties.put(klass, tmp);
 			} 
 			// if klass does not exist, create it!
 			else{
-				klassProportions.put(klass, new Integer(1) );
+				klassProperties.put(klass, new Integer(1) );
 			}	
 		}
+		return klassProperties;
+	}
+	
+	private double getEntropy(ArrayList<Dataset> data){
+		HashMap<Integer, Integer> klassProportions = getKlassProperties(data);
+		
 		// calculate entropy on klass proportions
 		double entropy = 0;
 		Set<Integer> klasses = klassProportions.keySet();
 		// System.out.println("Number of Symbols: "+klasses.size());
-		double size = (double) klasses.size();
+		double size = (double) data.size();
+		//System.out.println("klasses.size()="+size);
 		for(Integer klass: klasses){
 			double value = (double) klassProportions.get(klass);
 			double pi = (double) value / size;
@@ -93,16 +131,13 @@ public class RandomDecisionTree {
 	
 	private double getGain(int attribute, ArrayList<Dataset> s){
 		// get the set of attribute values
-		HashSet<Double> values = new HashSet<Double>();
-		for(Dataset d: s){
-			values.add(d.features[attribute]);
-		}
+		HashSet<Double> values = getValues(s, attribute);
 		
 		// make the gain calculation: Sum over values[ |Sv| / |S| * Entropy(sV) ]
 		double sum = 0;
 		for(double value: values){
 			ArrayList<Dataset> sV = getSv( s, value, attribute);
-			sum += (double)sV.size() / (double)s.size() * getEntropy(sV);	
+			sum += ( (double)sV.size() / (double)s.size() ) * getEntropy(sV);	
 		}
 		double gain = entropyS - sum;
 		return gain;
@@ -113,12 +148,34 @@ public class RandomDecisionTree {
 		double bestGain = 0;
 		for(Integer attr: attributes){
 			double gain = getGain((int) attr, s);
-			if( bestGain > gain){
+			if( bestGain < gain){
 				bestGain = gain;
 				bestAttr = (int) attr;
 			}
 		}
 		return bestAttr;
 	}
+	
+	private HashSet<Double> getValues(ArrayList<Dataset> datasets, int attribute){
+		HashSet<Double> values = new HashSet<Double>();
+		for(Dataset d: datasets){
+			values.add(d.features[attribute]);
+		}
+		return values;
+	}
+	
+    private HashSet<Integer> getTmpAttr( HashSet<Integer>usedAttributes ){
+		HashSet<Integer> tmpAttributes = new HashSet<Integer>();
+		for(int i=0; i< smallM; i++){
+			boolean doItAgain = true;
+			while(doItAgain){
+				Integer tmp = new Integer( (int) (Math.random()*bigM) );
+				if( tmpAttributes.add( tmp ) && !usedAttributes.contains(tmp) ){
+					doItAgain = false;
+				}
+			}
+		}
+		return tmpAttributes;
+    }
 	
 }

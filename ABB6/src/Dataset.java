@@ -12,14 +12,9 @@ public class Dataset {
 	
 	int correctKlass;				// prototype: class of most members; dataset: represented class 
 	double[] features;				// position vector
-	int dim;						// dimensions of vector
-	
-	
 	
 	public Dataset( double [] f){
 		features = f;
-		dim = features.length;
-
 	}
 	
 	public Dataset( int k, double[] f){
