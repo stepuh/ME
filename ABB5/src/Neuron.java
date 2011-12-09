@@ -10,6 +10,8 @@ public class Neuron {
 	public double standard_output; // Output, wenn es keine Dendriten gibt
 	public double bias = 0.5; // Schwellenwert, ab dem Neuron feuert
 
+	
+	
 	// Erstellt eine neue Synapse mit einem anderen Neuron mit einer bestimmten
 	// Wertigkeit
 	public void erstelleSynapse(Neuron ziel, double gewicht) {
@@ -17,6 +19,8 @@ public class Neuron {
 		ziel.dendriten.add(s);
 	}
 
+	
+	
 	// Propagierfunktion
 	public double net() {
 		// keine Dendriten -> Eingabeschicht
@@ -33,6 +37,8 @@ public class Neuron {
 		}
 	}
 
+	
+	
 	// Aktivitaetsfunktion
 	public double act() {
 		if (net() - bias >= 0) {
@@ -42,6 +48,8 @@ public class Neuron {
 		}
 	}
 
+	
+	
 	// Ausgabefunktion
 	public double out() {
 		return act();

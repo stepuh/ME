@@ -1,7 +1,9 @@
+package src;
+
 import java.util.ArrayList;
 
 
-// Der Thread bekommt den Random Forest und erstellt einen RDT und fŸgt ihn hinzu. Und stribt.
+// Der Thread bekommt den Random Forest und erstellt einen RDT und fï¿½gt ihn hinzu. Und stribt.
 public class AddTreeThread extends Thread{
 
 	private ArrayList<RandomDecisionTree> forest;
@@ -15,7 +17,7 @@ public class AddTreeThread extends Thread{
 		this.smallN = smallN;
 	}
 	
-	// Wird ausgefŸhrt wenn auf einem Thread start() aufgerufen wird
+	// Wird ausgefï¿½hrt wenn auf einem Thread start() aufgerufen wird
 	public void run(){
 		forest.add(new RandomDecisionTree(training, smallN ));
 	}

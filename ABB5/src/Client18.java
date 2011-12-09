@@ -19,16 +19,6 @@ public class Client18 {
 		double[] zahl7 = {0, 0, 1, 0, 0, 0, 0, 0, 0, 0};
 		double[] zahl8 = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 		double[] zahl9 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//		double[] zahl0 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-//		double[] zahl1 = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
-//		double[] zahl2 = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1};
-//		double[] zahl3 = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-//		double[] zahl4 = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1};
-//		double[] zahl5 = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1};
-//		double[] zahl6 = {0, 0, 0, 1, 1, 1, 1, 1, 1, 1};
-//		double[] zahl7 = {0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
-//		double[] zahl8 = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-//		double[] zahl9 = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};		
 		zahlenUnary[0] = zahl0;
 		zahlenUnary[1] = zahl1;
 		zahlenUnary[2] = zahl2;
@@ -79,7 +69,7 @@ public class Client18 {
 			
 			boolean korrekt = true;
 			for(int i=0; i<soll.length; i++){
-				if (soll[i] != ergebnis[i]){
+				if (soll[i] != ergebnis[i] && soll[i] == 1){
 					korrekt = false;
 				}
 			}

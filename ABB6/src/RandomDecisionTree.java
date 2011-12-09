@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,10 +70,10 @@ public class RandomDecisionTree {
 		this.bigN = training.size();
 		this.bigM  = training.get(0).features.length;
 		
-		// baue eine zufŠllige Menge S mit zurŸcklegen
+		// baue eine zufï¿½llige Menge S mit zurï¿½cklegen
 		s = new ArrayList<Dataset>();
 		for(int i=0; i < bigN; i++){
-			s.add( training.get( (int) (Math.random()*bigN) ) ); // ziehen mit zurŸcklegen
+			s.add( training.get( (int) (Math.random()*bigN) ) ); // ziehen mit zurï¿½cklegen
 		}
 		
 		// hier kommt der eigentliche Aufbau des Baumes
@@ -100,6 +102,8 @@ public class RandomDecisionTree {
 		return klassProperties;
 	}
 	
+	
+	
 	private double getEntropy(ArrayList<Dataset> data){
 		HashMap<Integer, Integer> klassProportions = getKlassProperties(data);
 		
@@ -119,6 +123,8 @@ public class RandomDecisionTree {
 		return -entropy; // make it negative!
 	}
 	
+	
+	
 	private ArrayList<Dataset> getSv(ArrayList<Dataset> s, double  value, int attribute){
 		ArrayList<Dataset> subset = new ArrayList<Dataset>();
 		for(Dataset d: s){
@@ -129,8 +135,10 @@ public class RandomDecisionTree {
 		return subset;
 	}
 	
+	
+	
 	private double getGain(int attribute, ArrayList<Dataset> s){
-		// get the set of attribute values
+	// get the set of attribute values
 		HashSet<Double> values = getValues(s, attribute);
 		
 		// make the gain calculation: Sum over values[ |Sv| / |S| * Entropy(sV) ]
