@@ -101,7 +101,13 @@ public class RandomDecisionTree {
         }
     	
         public int traverse(Dataset d){
-    		if( myu > d.features[splitAttr]){
+    		// blatt
+        	if (lub == null && rub == null){
+    			return klass;
+    		}
+        	
+        	// innerer knoten
+        	if( myu > d.features[splitAttr]){
     			if (lub != null){
     				return lub.traverse(d);
     			}else{
