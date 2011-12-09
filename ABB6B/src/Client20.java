@@ -25,8 +25,7 @@ public class Client20 {
 		
 		
 		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
-
-		
+	
 		// Add the trees concurrently!
 		ArrayList<AddTreeThread> threads = new ArrayList<AddTreeThread>();
 		for(int i=0; i<threadsN; i++){
@@ -73,7 +72,7 @@ public class Client20 {
 			}
 			int klass = bestKey;//valueMap.get(bestKey);
 			
-			if (klass % 2== richtig % 2){
+			if (klass == richtig ){
 				korrekt++;
 			}
 		}

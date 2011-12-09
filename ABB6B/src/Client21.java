@@ -2,6 +2,8 @@
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 
 
@@ -9,7 +11,7 @@ public class Client21 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
-		int threadsN = 100;
+		int baumanzahl = 100;
 		
 		// do preprocessing: remove Datasets with class -1
 		ArrayList<Dataset> pollutedDatasets = new ArrayList<Dataset>();
@@ -20,32 +22,63 @@ public class Client21 {
 		}
 		training.removeAll(pollutedDatasets);
 		
-		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
+		double gemitteltesErgebnis = 0;
 		
-		// Add the trees concurrently!
-		ArrayList<AddTreeThread> threads = new ArrayList<AddTreeThread>();
-		for(int i=0; i<threadsN; i++){
-			AddTreeThread t = new AddTreeThread(forest, training);
-			t.start();
-			threads.add(t);
-		}
-		
-		// block till every tree is fully grown :)
-		for(AddTreeThread t: threads){
-			t.join(); 
-		}
-		
-		System.out.println("Forest size: "+forest.size());
-		
-		
-		//Out of bag
-		for(RandomDecisionTree t: forest){
-			// testing = alle Datensets die NICHT zum trainieren von t benutzt wurden
-			ArrayList<Dataset> testing = new ArrayList<Dataset>();
-			testing.addAll(training);
-			testing.removeAll(t.s);
-		}
+		for(int j=0; j<10;j++){
+			
+			ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
+			for(int z=0; z<baumanzahl; z++){
+				forest.add( new RandomDecisionTree(training));
+			}
+			
+			int korrekt = 0;
+			HashMap<Integer, Integer> valueMap = new HashMap<Integer,Integer>();
 
+			for(Dataset d : training){
+				valueMap.clear();
+				int richtig = d.correctKlass;
+
+				
+				// Teste alle Bäume durch
+				for(RandomDecisionTree tree : forest){
+					if ( !tree.s.contains(d)){ // out of bag method
+						int erkannt = tree.traverse(d);
+						if (valueMap.containsKey(erkannt)) {
+							Integer tmp = valueMap.get(erkannt);
+							valueMap.put(erkannt, tmp + 1);
+						} else {
+							valueMap.put(erkannt, 1);
+						}
+					}
+				}
+					
+				Set<Integer> keys = valueMap.keySet();
+				int max = 0;
+				int bestKey = -1;
+				for (Integer k1 : keys) {
+					if(k1 == -1){
+						continue;	// don't count misses
+					}
+					int value = valueMap.get(k1);
+					if (max < value) {
+						max = value;
+						bestKey = k1;
+					}
+				}
+				int klass = bestKey;
+				if (klass == richtig ){
+					korrekt++;
+				}
+			}
+
+			double pr = (double) korrekt / (double) training.size();
+			gemitteltesErgebnis += pr;
+			
+		}
+		gemitteltesErgebnis /= 10;
+		System.out.println("Forrest Size: "+baumanzahl+ " Erkennungsrate: "+gemitteltesErgebnis);
+		
+		
 
 
 	}
