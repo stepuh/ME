@@ -11,7 +11,7 @@ public class Client20 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
-		int threadsN = 100;
+		int threadsN = 10;
 		
 		// do preprocessing: remove Datasets with class -1
 		ArrayList<Dataset> pollutedDatasets = new ArrayList<Dataset>();
@@ -73,7 +73,7 @@ public class Client20 {
 			}
 			int klass = bestKey;//valueMap.get(bestKey);
 			
-			if (klass == richtig){
+			if (klass % 2== richtig % 2){
 				korrekt++;
 			}
 		}
