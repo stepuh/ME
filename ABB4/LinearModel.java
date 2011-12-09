@@ -5,13 +5,10 @@ public class LinearModel {
 	Database db;
 	Matrix x;
 	
-	
 	LinearModel( Database db ){
 		this.db = db;
 		this.calcX();
 	}
-	
-	
 	
 	// Calculates and returns the matrix X 
 	private void calcX(){
@@ -25,10 +22,6 @@ public class LinearModel {
 		}
 		this.x = new Matrix( x );
 	}
-	
-	
-	
-	
 	
 	public double testClass(int c){
 		
