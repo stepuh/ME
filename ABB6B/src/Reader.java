@@ -5,11 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * The Reader is used to read read the train data out
- * of the file "training.txt"
- * Thereby it creates Datasets representing this train data.
- */
 public class Reader {
 	
 	public ArrayList<Dataset> data;

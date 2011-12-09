@@ -1,6 +1,7 @@
-package src;
+
 
 import java.util.ArrayList;
+
 
 
 // Der Thread bekommt den Random Forest und erstellt einen RDT und f�gt ihn hinzu. Und stribt.

@@ -1,7 +1,8 @@
-package src;
+
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 
 
 public class Client20 {
