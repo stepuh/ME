@@ -2,7 +2,6 @@
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 
@@ -10,6 +9,7 @@ public class Client20 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
+		int threadsN = 100;
 		
 		// do preprocessing: remove Datasets with class -1
 		ArrayList<Dataset> pollutedDatasets = new ArrayList<Dataset>();
@@ -23,12 +23,20 @@ public class Client20 {
 		
 		
 		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
-		Random rnd = new Random();
-		for(int i=0; i<10; i++){
-			forest.add(new RandomDecisionTree(training, rnd));
+
+		
+		// Add the trees concurrently!
+		ArrayList<AddTreeThread> threads = new ArrayList<AddTreeThread>();
+		for(int i=0; i<threadsN; i++){
+			AddTreeThread t = new AddTreeThread(forest, training);
+			t.start();
+			threads.add(t);
 		}
 		
-	
+		// block till every tree is fully grown :)
+		for(AddTreeThread t: threads){
+			t.join(); 
+		}
 		
 		System.out.println("Forest size: "+forest.size());
 

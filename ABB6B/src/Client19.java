@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 
-public class Client22 {
+public class Client19 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
@@ -19,9 +19,7 @@ public class Client22 {
 			}
 		}
 		training.removeAll(pollutedDatasets);
-		
-		
-		
+			
 		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
 
 		
@@ -38,8 +36,6 @@ public class Client22 {
 			t.join(); 
 		}
 		
-		System.out.println("Forest size: "+forest.size());
-
 
 
 	}

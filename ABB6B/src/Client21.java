@@ -9,7 +9,7 @@ public class Client21 {
 
 	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		ArrayList<Dataset> training = new Reader("digits-testing-neu.txt").getDatasets();
-		int threadsN = 1;
+		int threadsN = 100;
 		
 		// do preprocessing: remove Datasets with class -1
 		ArrayList<Dataset> pollutedDatasets = new ArrayList<Dataset>();
@@ -20,10 +20,7 @@ public class Client21 {
 		}
 		training.removeAll(pollutedDatasets);
 		
-		
-		
 		ArrayList<RandomDecisionTree> forest = new ArrayList<RandomDecisionTree>();
-
 		
 		// Add the trees concurrently!
 		ArrayList<AddTreeThread> threads = new ArrayList<AddTreeThread>();
@@ -39,6 +36,15 @@ public class Client21 {
 		}
 		
 		System.out.println("Forest size: "+forest.size());
+		
+		
+		//Out of bag
+		for(RandomDecisionTree t: forest){
+			// testing = alle Datensets die NICHT zum trainieren von t benutzt wurden
+			ArrayList<Dataset> testing = new ArrayList<Dataset>();
+			testing.addAll(training);
+			testing.removeAll(t.s);
+		}
 
 
 
