@@ -178,6 +178,20 @@ public class Netz {
 	} 
 	
 	
+	
+	public void backpropagation(Muster m){
+		musterAnlegen(m);
+		
+		for(Neuron n : inputNeuronen){
+			n.forward();
+		}
+
+		
+	}
+	
+	
+	
+	
 //	
 //	
 //	// Das Netz lernt nach der Delta-Regel eine Menge von Muster

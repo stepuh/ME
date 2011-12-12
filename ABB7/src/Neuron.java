@@ -11,8 +11,9 @@ public class Neuron {
 	public boolean istKonstant = false;	// true, sollte es sich um ein Input-Neuron, oder um das Bias-Neuron handeln
 	public double standard_output;		
 	
-	public double back_speicher;				// Zwischenspeicher für den Backpropagation-Algorithmus
+	public double traversing_value;				// Zwischenspeicher für den Backpropagation-Algorithmus
 	public double ableitung_speicher;			// Zwischenspeicher für den Forward-Schritt
+	public double funktion_speicher;
 	
 	
 	// Erstellt eine neue Synapse mit einem anderen Neuron mit einer bestimmten
@@ -35,19 +36,19 @@ public class Neuron {
 			
 		return 1.0 / (1.0 + Math.exp(-k * exponent));
 	}
-
 	
 	
-	public void forward(){
-		double tmp  = act();
+	public void forward(double input){
+		double tmp = act();
+		funktion_speicher = tmp;
 		ableitung_speicher = tmp * (1 - tmp);
 	}
 	
 	
 	public void backward(double input){
 		for(Synapse s : inputSynapsen){
-			back_speicher = ableitung_speicher * input;
-			s.von.backward(back_speicher);
+			traversing_value = ableitung_speicher * input;
+			s.von.backward(traversing_value);
 		}
 	}
 	
