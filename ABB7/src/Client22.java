@@ -1,35 +1,30 @@
+import java.util.ArrayList;
 
+import Jama.Matrix;
 
 
 public class Client22 {
 
+
 	public static void main(String[] args) {
-
-		// Eingabeschicht hat Höhe 2 (+1)
-		// 1 Innere Schicht
-		// Innere Schichten haben Höhe 2 (+1)
-		// Ausgabeschicht hat Höhe 1
-		Netz xorNetz = new Netz(3,1,3,1); 
+		ArrayList<Pattern> train = new ArrayList<Pattern>();
+		ArrayList<Pattern> test = new ArrayList<Pattern>();
+		int dim = train.get(0).dim;
 		
-		// Setzen nun die Gewichte manuell:
-		Neuron n1 = xorNetz.inputNeuronen.get(0);
-		n1.outputSynapsen.get(0).gewicht = -4.081;
-		n1.outputSynapsen.get(1).gewicht = 4.111;
-		n1.outputSynapsen.get(2).gewicht = -2.439;
+		Net net = new Net(dim, 1);
+		net.addHiddenLayer(2);
 		
-		Neuron n2 = xorNetz.inputNeuronen.get(1);
-		n2.outputSynapsen.get(0).gewicht = 6.034;
-		n2.outputSynapsen.get(1).gewicht = -5.844;
-		n2.outputSynapsen.get(2).gewicht = -3.297;
+		Matrix w1 = new Matrix(3,3);
+		Matrix w2 = new Matrix(1,3); // Spaltenvektor???!!!! TODO:!!!11einself
 		
-		Neuron n3 = xorNetz.inputNeuronen.get(2);
-		n2.outputSynapsen.get(0).gewicht = 3.688;
-		n2.outputSynapsen.get(1).gewicht = -3.131;
-		n2.outputSynapsen.get(2).gewicht = -1.810;
-
-		
+		net.getHiddenLayer(1).wExt = w1;
+		net.outputLayer.wExt = w2;
 		
 
+		//TODO: count correct
+		for(Pattern d: test){
+			net.getResult(d);
+		}
 	}
 
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Reader {
 	
-	public ArrayList<Dataset> data;
+	public ArrayList<Pattern> data;
 	
 	
 	// Read train data out of file and create Datasets
@@ -19,7 +19,7 @@ public class Reader {
 		File f = new File( path );
 		Scanner scanner = new Scanner( f );
 		
-		data = new ArrayList<Dataset>();
+		data = new ArrayList<Pattern>();
 
 		// parse lines
 		while( scanner.hasNext() ){
@@ -35,14 +35,14 @@ public class Reader {
 				features[i] = Double.parseDouble( stringParts[i] );
 			}
 			
-			data.add(new Dataset(correctKlass, features	));
+			data.add(new Pattern(correctKlass, features	));
 		}
 	}
 	
 	
 	
 	// Returns Datasets representing read data
-	public ArrayList<Dataset> getDatasets(){
+	public ArrayList<Pattern> getDatasets(){
 		return data;
 	}
 	
