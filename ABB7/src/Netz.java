@@ -183,7 +183,7 @@ public class Netz {
 		musterAnlegen(m);
 		
 		for(Neuron n : inputNeuronen){
-			n.forward();
+			//n.forward();
 		}
 
 		

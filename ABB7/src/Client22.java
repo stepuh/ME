@@ -1,9 +1,10 @@
 
 
+
 public class Client22 {
 
 	public static void main(String[] args) {
-		
+
 		// Eingabeschicht hat Höhe 2 (+1)
 		// 1 Innere Schicht
 		// Innere Schichten haben Höhe 2 (+1)

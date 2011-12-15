@@ -2,8 +2,6 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -21,9 +19,6 @@ public class RandomDecisionTree {
 	private Node root;
 
     private class Node {
-
-        private Node parent;
-        private List<Node> children;
         
         Node lub;
         Node rub;
@@ -31,7 +26,6 @@ public class RandomDecisionTree {
         int splitAttr;
         int depth;
         int klass;
-        Dataset blattSet;
         
         public Node(ArrayList<Dataset> matchingData, Random rnd, int parentDepth ){
     		
@@ -62,9 +56,7 @@ public class RandomDecisionTree {
         	else if( 1 == matchingData.size() ){
     			// ich bin blatt
     			klass = matchingData.get(0).correctKlass;	
-    		}else{
-    			children = new ArrayList<Node>();
-    			
+    		}else{    			
     			// ich bin knoten
     			
     			ArrayList<Dataset> left = new ArrayList<Dataset>();
