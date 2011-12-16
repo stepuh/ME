@@ -7,10 +7,25 @@ public class Client23 {
 	public static void main(String[] args) {
 		
 		ArrayList<Pattern> train = new ArrayList<Pattern>();
-		ArrayList<Pattern> test = new ArrayList<Pattern>();
-		int dim = train.get(0).dim;
 		
-		Net net = new Net(dim, 1);
+		Vector teachingTrue = new Vector(new double[]{1});
+		Vector teachingFalse = new Vector(new double[]{0});
+		train.add(new Pattern(teachingFalse, new double[]{ 0,0 }) );
+		train.add(new Pattern(teachingTrue, new double[]{ 1,0 }) );
+		train.add(new Pattern(teachingTrue, new double[]{ 0,1 }) );
+		train.add(new Pattern(teachingFalse, new double[]{ 1,1 }) );
+
+		ArrayList<Pattern> test = new ArrayList<Pattern>();
+		test.add(new Pattern(teachingTrue, new double[]{ 0,0 }) );
+		test.add(new Pattern(teachingTrue, new double[]{ 1,0 }) );
+		test.add(new Pattern(teachingTrue, new double[]{ 0,1 }) );
+		test.add(new Pattern(teachingTrue, new double[]{ 1,1 }) );
+		
+		
+		
+		Net net = new Net(2, 1);
+		net.addHiddenLayer(5);
+		
 		for(Pattern d: train){
 			net.learnFrom(d);
 		}
