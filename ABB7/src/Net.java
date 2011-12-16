@@ -75,12 +75,16 @@ public class Net {
 		
 		// Backpropagation-Step for the output-layer
 		outputLayer.calcE(teaching);
-		outputLayer.delta = new Vector(outputLayer.derivations.times(outputLayer.e));
+		outputLayer.delta = new Vector(outputLayer.derivations.times(outputLayer.e.transpose()).transpose());
+		
+
 
 		// update weights of output-layer
-		Matrix diffWExtTransposed = outputLayer.delta.times(-learnConst).times(outputLayer.o.getExtended());
-		diffWExtTransposed.transpose();
-		outputLayer.wExt.plus(diffWExtTransposed);
+		System.out.println("wExt " + outputLayer.wExt.getRowDimension() +", "+outputLayer.wExt.getColumnDimension());
+		Matrix diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(outputLayer.o.getExtended());
+		System.out.println("diff " + diffWExtTransposed.getRowDimension() +", "+diffWExtTransposed.getColumnDimension());
+
+		outputLayer.wExt.times(diffWExtTransposed.transpose());
 		
 		
 		// Backpropagation step for hidden layers

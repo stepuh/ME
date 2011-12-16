@@ -13,6 +13,6 @@ public class OutputLayer extends Layer{
 	
 	// Calculates the vector of square-differentials between output and teaching
 	public void calcE(Vector teaching){
-		e = (Vector) o.minus(teaching);
+		e = new Vector(o.minus(teaching));
 	}
 }

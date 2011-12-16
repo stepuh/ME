@@ -59,7 +59,7 @@ public class Layer {
 		
 		// calculate D_j: for diagnoal axis oi^j * (1- oi^j)
 		// and save D_j
-		double[] oArr = o.toArray();
+		double[] oArr = input.toArray();
 		derivations = new Matrix(oArr.length, oArr.length);
 		for(int i=0; i<oArr.length; i++){
 			derivations.set(i, i, oArr[i]*(1-oArr[i]));

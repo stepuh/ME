@@ -10,7 +10,7 @@ public class Client24 {
 		ArrayList<Pattern> test = new Reader("pendigits-testing.txt").getDatasets();
 		int dim = train.get(0).dim;
 		
-		Net net = new Net(dim, 1);
+		Net net = new Net(dim, 10);
 		for(Pattern d: train){
 			net.learnFrom(d);
 		}
