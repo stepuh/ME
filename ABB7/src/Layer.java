@@ -14,11 +14,14 @@ public class Layer {
 		this.k = k;
 
 		// Matrix erstellen
-		double[][] tmpWExt = new double[prevK][k];
-		for(int i = 0; i < prevK; i++){
+		double[][] tmpWExt = new double[prevK+1][k];
+		for(int i = 0; i < prevK+1; i++){
 			for(int j = 0 ; j < k; j ++){
 				tmpWExt[i][j] = Math.random() * 2 -1; // [-1,1]
 			}
+		}
+		for(int j = 0 ; j < k; j ++){
+			tmpWExt[prevK][j] = 1.0; // Constant 1
 		}
 		wExt = new Matrix(tmpWExt);		
 	}
