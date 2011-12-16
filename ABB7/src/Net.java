@@ -138,6 +138,18 @@ public class Net {
 			
 			// update weights
 			diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
+
+
+			cols = diffWExtTransposed.getColumnDimension();
+			rows = diffWExtTransposed.getRowDimension();
+			System.out.println("diffWExtT c: "+ cols + "r: " + rows);
+			
+			cols = l.wExt.getColumnDimension();
+			rows = l.wExt.getRowDimension();
+			System.out.println("l.wExt c: "+ cols + "r: " + rows);
+
+			
+			
 			l.wExt = l.wExt.plus(diffWExtTransposed.transpose());
 			l_succ = l;
 		}	
