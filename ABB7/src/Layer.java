@@ -14,4 +14,9 @@ public class Layer {
 		//returns w (not extended)
 		return null;
 	}
+	
+	public Vector calc( Vector input ){
+		// TODO:
+		return null;
+	}
 }
