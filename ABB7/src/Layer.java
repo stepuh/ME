@@ -39,7 +39,8 @@ public class Layer {
 	
 	
 	
-	public Vector calc( Vector input ){
+	public Vector calc( Vector input ){ // without Ext
+		double[] inputArr = input.toArray();
 		// TODO:
 		return null;
 	}
