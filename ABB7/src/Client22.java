@@ -24,17 +24,31 @@ public class Client22 {
 		w1Arr[1] = new double[]{6.034, -5.844, -3.297};
 		w1Arr[2] = new double[]{3.688, -3.131, 1.810};
 		Matrix w1 = new Matrix(w1Arr);
-		Matrix w2 = new Matrix(new double[]{6.053, 9.059, -4.517, -0.463},1);
+		Matrix w2 = new Matrix(new double[]{6.053, 9.059, -4.517, -0.463},1).transpose();
 		
 		
 		
 		net.getHiddenLayer(0).wExt = w1;
 		net.outputLayer.wExt = w2;
 
-		//TODO: count correct
+		int total = 0;
+		int correct = 0;
 		for(Pattern d: test){
-			net.getResult(d);
+			total++;
+			double[] result = net.getResult(d).toArray();
+			double[] teaching = d.teaching.toArray();
+			boolean corr = true;
+			for(int i=0; i<result.length; i++){
+				if( result[i] != teaching[i]){
+					corr = false;
+				}	
+			}
+			if(corr){
+				correct++;
+			}
 		}
+		System.out.println( (correct/(double) total *100) + "% korrekt");
+
 	}
 
 }
