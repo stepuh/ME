@@ -15,7 +15,9 @@ public class Net {
 	}
 	
 	public void addHiddenLayer(int k){
-		//TODO:
+		int prevK = hiddenLayers.get(hiddenLayers.size()-1).
+		Layer l = new Layer(prevK, k);
+		hiddenLayers.add(l);
 	}
 	
 	public void learnFrom(Pattern input){
