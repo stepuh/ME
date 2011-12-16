@@ -16,11 +16,10 @@ public class Client24 {
 		net.addHiddenLayer(16);
 		//net.addHiddenLayer(16);
 		
-		Pattern x = train.get(0);
-		net.learnFrom(x);
-//		for(Pattern d: train){
-//			net.learnFrom(d);
-//		}
+
+		for(Pattern d: train){
+			net.learnFrom(d);
+		}
 
 		int total = 0;
 		int correct = 0;

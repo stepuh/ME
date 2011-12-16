@@ -57,7 +57,18 @@ public class Net {
 		for(Layer l: hiddenLayers){
 			temp_o = l.calc(temp_o);
 		}
-		return outputLayer.calc(temp_o);
+		double[] ecklig = outputLayer.calc(temp_o).toArray();
+		double maxValue = 0;
+		int maxPos = 0;
+		for(int i=0; i<ecklig.length; i++){
+			if(ecklig[i]> maxValue){
+				maxValue = ecklig[i];
+				maxPos = i;
+			}
+		}
+		Matrix tmp = new Matrix(ecklig.length, 1);
+		tmp.set(maxPos, 0, 1);
+		return new Vector(tmp);
 	}
 	
 	
@@ -151,7 +162,6 @@ public class Net {
 
 			l.wExt = l.wExt.plus(diffWExtTransposed);
 			System.out.println("#####################");
-			l.wExt.print(10, 10);
 			l_succ = l;
 		}	
 	}
