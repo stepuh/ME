@@ -92,7 +92,7 @@ public class Net {
 		
 
 		//
-		Vector o_1 = hiddenLayers.get(hiddenLayers.size()).o;
+		Vector o_1 = hiddenLayers.get(hiddenLayers.size()-1).o;
 		
 		// update weights of output-layer
 		System.out.println("wExt " + outputLayer.wExt.getRowDimension() +", "+outputLayer.wExt.getColumnDimension());
