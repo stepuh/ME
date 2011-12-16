@@ -14,6 +14,7 @@ public class Net {
 	// The net has no hidden layers at this point
 	public Net(int inputN, int outputM){
 		hiddenLayers = new ArrayList<Layer>();
+		outputLayer = new OutputLayer(inputN, outputM);
 		
 	}
 	
@@ -30,6 +31,8 @@ public class Net {
 		int prevK = hiddenLayers.get(hiddenLayers.size()-1).k;
 		Layer l = new Layer(prevK, k);
 		hiddenLayers.add(l);
+		int m = outputLayer.k;
+		outputLayer = new OutputLayer(k, m);
 	}
 	
 	
