@@ -35,8 +35,9 @@ public class Net {
 	
 	
 	// Updates the net's weights after learning from a certain pattern
-	public void learnFrom(Pattern input){
-		//TODO:
+	public void learnFrom(Pattern pattern){
+		feedForward(pattern.features);
+		backPropagation(pattern.teaching);
 	}
 	
 	
@@ -54,8 +55,8 @@ public class Net {
 	
 	// The Feed-Forward-Step calculates and saves the derivations
 	// and the outputs of each node of the net
-	private void feedForward( Pattern input){
-		Vector temp_o = input.features;
+	private void feedForward(Vector input){
+		Vector temp_o = input;
 		for(Layer l: hiddenLayers){
 			temp_o = l.calcAndSave(temp_o);
 		}
