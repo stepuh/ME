@@ -4,28 +4,44 @@ import Jama.Matrix;
 
 
 public class Net {
+	
 	ArrayList<Layer> hiddenLayers;
 	OutputLayer outputLayer;
 	
+	
+	
+	// Creates a new Net with an input-size n and an output-size m
+	// The net has no hidden layers at this point
 	public Net(int inputN, int outputM){
 		hiddenLayers = new ArrayList<Layer>();
 		
 	}
 	
+	
+	
+	// Returns the hidden layer with index i
 	public Layer getHiddenLayer(int i){
 		return hiddenLayers.get(i);
 	}
 	
+	
+	// Adds a new hidden layer right after the last hidden layer with k nodes
 	public void addHiddenLayer(int k){
 		int prevK = hiddenLayers.get(hiddenLayers.size()-1).k;
 		Layer l = new Layer(prevK, k);
 		hiddenLayers.add(l);
 	}
 	
+	
+	
+	// Updates the net's weights after learning from a certain pattern
 	public void learnFrom(Pattern input){
 		//TODO:
 	}
 	
+	
+	
+	// Returns the result of the output-vector for a certain input-vector
 	public Vector getResult(Pattern input){
 		Vector temp_o = new Vector(input.features);
 		for(Layer l: hiddenLayers){
@@ -34,6 +50,10 @@ public class Net {
 		return outputLayer.calc(temp_o);
 	}
 	
+	
+	
+	// The Feed-Forward-Step calculates and saves the derivations
+	// and the outputs of each node of the net
 	private void feedForward( Pattern input){
 		Vector temp_o = input.features;
 		for(Layer l: hiddenLayers){
@@ -42,6 +62,10 @@ public class Net {
 		outputLayer.calcAndSave(temp_o);
 	}
 	
+	
+	
+	// The Backpropagation Step calculates new Weights by
+	// using the derivations and traversing backwards through the net.
 	private void backPropagation(Vector teaching){
 		double learnConst = 1.0;
 		
@@ -52,7 +76,7 @@ public class Net {
 		// update weights of output-layer
 		Matrix diffWExtTransposed = outputLayer.delta.times(-learnConst).times(outputLayer.o.getExtended());
 		diffWExtTransposed.transpose();
-		outputLayer.wExt.minus(diffWExtTransposed);
+		outputLayer.wExt.plus(diffWExtTransposed);
 		
 		
 		// Backpropagation step for hidden layers
@@ -65,7 +89,7 @@ public class Net {
 			// update weights
 			diffWExtTransposed = l.delta.times(-learnConst).times(l.o.getExtended()); 
 			diffWExtTransposed.transpose();
-			l.wExt.minus(diffWExtTransposed);
+			l.wExt.plus(diffWExtTransposed);
 			l_succ = l;
 		}	
 	}
