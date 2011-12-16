@@ -43,4 +43,10 @@ public class Layer {
 		// TODO:
 		return null;
 	}
+	
+	
+	public Vector calcAndSave( Vector input ){
+		calc(input);
+		return null;
+	}
 }

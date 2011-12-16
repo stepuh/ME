@@ -24,15 +24,20 @@ public class Net {
 		//TODO:
 	}
 	
-	public void getResult(Pattern input){
-		//TODO:
+	public Vector getResult(Pattern input){
+		Vector temp_o = new Vector(input.features);
+		for(Layer l: hiddenLayers){
+			temp_o = l.calc(temp_o);
+		}
+		return outputLayer.calc(temp_o);
 	}
 	
 	private void feedForward( Pattern input){
 		Vector temp_o = new Vector(input.features);
 		for(Layer l: hiddenLayers){
-			temp_o = l.calc(temp_o);
+			temp_o = l.calcAndSave(temp_o);
 		}
+		outputLayer.calcAndSave(temp_o);
 	}
 	
 	private void backPropagation(){
