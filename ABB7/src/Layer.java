@@ -26,7 +26,6 @@ public class Layer {
 			tmpWExt[prevK][j] = 1.0; // Constant 1
 		}
 		wExt = new Matrix(tmpWExt);
-		System.out.println("blabla: "+ wExt.getColumnDimension() + " " + wExt.getRowDimension());
 	}
 
 	

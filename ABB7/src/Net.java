@@ -92,13 +92,6 @@ public class Net {
 		
 		// Backpropagation-Step for the output-layer
 		outputLayer.calcE(teaching);
-		Matrix d = outputLayer.derivations;
-		System.out.println("d " + d.getRowDimension() +", "+d.getColumnDimension());
-
-		
-		Matrix e = outputLayer.e;
-		System.out.println("e " + e.getRowDimension() +", "+e.getColumnDimension());
-		
 		outputLayer.delta = new Vector(outputLayer.derivations.times(outputLayer.e.transpose()).transpose());
 		
 
@@ -106,41 +99,18 @@ public class Net {
 		Vector prevLayer = hiddenLayers.get(hiddenLayers.size()-1).o;
 		
 		// update weights of output-layer
-		System.out.println("wExt " + outputLayer.wExt.getRowDimension() +", "+outputLayer.wExt.getColumnDimension());
 		Matrix diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
-		System.out.println("diff " + diffWExtTransposed.getRowDimension() +", "+diffWExtTransposed.getColumnDimension());
 
 		outputLayer.wExt = outputLayer.wExt.plus(diffWExtTransposed.transpose());
 		
-		System.out.println("#hidden: "  + hiddenLayers.size());
 		
 		// Backpropagation step for hidden layers
 		Layer l_succ = outputLayer; // successor Layer
 		for(int i = hiddenLayers.size()-1; i>=0; i--){
-			System.out.println("i:" + i);
 			Layer l = hiddenLayers.get(i);
-			// calc delta
-			
-
-			
-			int cols = l.derivations.getColumnDimension();
-			int rows = l.derivations.getRowDimension();
-			System.out.println("derivations c: "+ cols + "r: " + rows);
-
-			cols = l_succ.getW().getColumnDimension();
-			rows = l_succ.getW().getRowDimension();
-			System.out.println("suc.getW c: "+ cols + "r: " + rows);
-			
-			cols = l_succ.delta.getColumnDimension();
-			rows = l_succ.delta.getRowDimension();
-			System.out.println("succ_delta c: "+ cols + "r: " + rows);
-
-			
-			
+			// calc delta			
 			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta.transpose()).transpose());
-			
-			
-			
+		
 			if(i > 0){
 				prevLayer = hiddenLayers.get(i-1).o;
 			}else{
@@ -151,17 +121,7 @@ public class Net {
 			diffWExtTransposed = l.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
 			diffWExtTransposed = diffWExtTransposed.transpose();
 
-			
-			cols = diffWExtTransposed.getColumnDimension();
-			rows = diffWExtTransposed.getRowDimension();
-			System.out.println("diffWExtT c: "+ cols + "r: " + rows);
-			
-			cols = l.wExt.getColumnDimension();
-			rows = l.wExt.getRowDimension();
-			System.out.println("l.wExt c: "+ cols + "r: " + rows);
-
 			l.wExt = l.wExt.plus(diffWExtTransposed);
-			System.out.println("#####################");
 			l_succ = l;
 		}	
 	}
