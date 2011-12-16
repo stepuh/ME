@@ -15,10 +15,23 @@ public class Client23 {
 			net.learnFrom(d);
 		}
 
-		//TODO: count correct
+		int total = 0;
+		int correct = 0;
 		for(Pattern d: test){
-			net.getResult(d);
+			total++;
+			double[] result = net.getResult(d).toArray();
+			double[] teaching = d.teaching.toArray();
+			boolean corr = true;
+			for(int i=0; i<result.length; i++){
+				if( result[i] != teaching[i]){
+					corr = false;
+				}	
+			}
+			if(corr){
+				correct++;
+			}
 		}
+		System.out.println( (correct/(double) total *100) + "% korrekt");
 	}
 
 }
