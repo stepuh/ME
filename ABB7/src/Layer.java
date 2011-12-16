@@ -52,6 +52,7 @@ public class Layer {
 		
 		// calculate o = sigmoid(o^ * w- )
 		Vector tmp = new Vector( inputExt.times(wExt) );
+		
 		return MathUtil.sigmoid( tmp );
 	}
 	
@@ -59,7 +60,7 @@ public class Layer {
 	public Vector calcAndSave( Vector input ){ // saves o 
 		// save o
 		o = calc(input);
-		
+				
 		// calculate D_j: for diagnoal axis oi^j * (1- oi^j)
 		// and save D_j
 		double[] oArr = o.toArray();

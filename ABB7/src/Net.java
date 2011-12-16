@@ -126,7 +126,7 @@ public class Net {
 
 			
 			
-			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta.transpose()));
+			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta.transpose()).transpose());
 			
 			
 			
@@ -137,7 +137,7 @@ public class Net {
 			}
 			
 			// update weights
-			diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
+			diffWExtTransposed = l.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
 			diffWExtTransposed = diffWExtTransposed.transpose();
 
 			
@@ -149,9 +149,9 @@ public class Net {
 			rows = l.wExt.getRowDimension();
 			System.out.println("l.wExt c: "+ cols + "r: " + rows);
 
-			
-			
 			l.wExt = l.wExt.plus(diffWExtTransposed);
+			System.out.println("#####################");
+			l.wExt.print(10, 10);
 			l_succ = l;
 		}	
 	}

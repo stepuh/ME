@@ -11,11 +11,16 @@ public class Client24 {
 		int dim = train.get(0).dim;
 		
 		Net net = new Net(dim, 10);
-		net.addHiddenLayer(12);
+		net.addHiddenLayer(16);
+		net.addHiddenLayer(16);
+		net.addHiddenLayer(16);
 		//net.addHiddenLayer(16);
-		for(Pattern d: train){
-			net.learnFrom(d);
-		}
+		
+		Pattern x = train.get(0);
+		net.learnFrom(x);
+//		for(Pattern d: train){
+//			net.learnFrom(d);
+//		}
 
 		int total = 0;
 		int correct = 0;

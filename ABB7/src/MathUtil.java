@@ -3,7 +3,7 @@ public class MathUtil {
 	
 	// Sigmoid for single value x, c = 1
 	static double sigmoid( double x ){
-		return( 1/Math.exp(x));
+		return( 1/(1-Math.exp(-x)));
 	}
 	
 	// Sigmoid for double array
