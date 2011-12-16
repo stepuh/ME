@@ -40,7 +40,21 @@ public class Layer {
 	
 	
 	public Vector calc( Vector input ){ // without Ext
+		
+		// extend input to input^
 		double[] inputArr = input.toArray();
+		double[] inputExtArr = new double[inputArr.length+1];
+		for(int i=0; i<inputArr.length; i++){
+			inputExtArr[i] = inputArr[i];
+		}
+		inputExtArr[inputArr.length] = 1;
+		Vector inputExt = new Vector(inputExtArr);
+		
+		Vector tmp = new Vector( inputExt.times(wExt) );
+		
+		o = MathUtil.sigmoid( tmp );
+		
+		
 		// TODO:
 		return null;
 	}

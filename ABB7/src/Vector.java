@@ -12,6 +12,16 @@ public class Vector extends Matrix{
 		super(v,1);
 	}
 	
+	public Vector( double[][] v){
+		super(v[0],1);
+	}
+	
+	public Vector( Matrix v){
+		super(v.getArray()[0],1);
+	}
+
+
+
 	public double[] toArray(){
 		double[][] tmp = this.getArray();
 		return tmp[0];
