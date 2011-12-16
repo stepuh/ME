@@ -15,7 +15,7 @@ public class Net {
 	}
 	
 	public void addHiddenLayer(int k){
-		int prevK = hiddenLayers.get(hiddenLayers.size()-1).
+		int prevK = hiddenLayers.get(hiddenLayers.size()-1).k;
 		Layer l = new Layer(prevK, k);
 		hiddenLayers.add(l);
 	}

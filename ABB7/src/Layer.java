@@ -10,7 +10,6 @@ public class Layer {
 	public int k;
 	
 	
-	
 	public Layer(int prevK, int k){
 		this.k = k;
 
