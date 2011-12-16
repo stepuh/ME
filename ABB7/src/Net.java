@@ -109,9 +109,28 @@ public class Net {
 			System.out.println("i:" + i);
 			Layer l = hiddenLayers.get(i);
 			// calc delta
-			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta));
 			
-			if(i >= 0){
+
+			
+			int cols = l.derivations.getColumnDimension();
+			int rows = l.derivations.getRowDimension();
+			System.out.println("derivations c: "+ cols + "r: " + rows);
+
+			cols = l_succ.getW().getColumnDimension();
+			rows = l_succ.getW().getRowDimension();
+			System.out.println("suc.getW c: "+ cols + "r: " + rows);
+			
+			cols = l_succ.delta.getColumnDimension();
+			rows = l_succ.delta.getRowDimension();
+			System.out.println("succ_delta c: "+ cols + "r: " + rows);
+
+			
+			
+			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta.transpose()));
+			
+			
+			
+			if(i > 0){
 				prevLayer = hiddenLayers.get(i-1).o;
 			}else{
 				prevLayer = input; 
