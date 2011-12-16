@@ -137,9 +137,8 @@ public class Net {
 			}
 			
 			// update weights
-			diffWExtTransposed = l.delta.times(-learnConst).times(prevLayer.getExtended()); 
-			diffWExtTransposed.transpose();
-			l.wExt = l.wExt.plus(diffWExtTransposed);
+			diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
+			l.wExt = l.wExt.plus(diffWExtTransposed.transpose());
 			l_succ = l;
 		}	
 	}
