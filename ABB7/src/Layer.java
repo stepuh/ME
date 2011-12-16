@@ -39,35 +39,29 @@ public class Layer {
 	
 	
 	
-	public Vector calc( Vector input ){ // calculates o and derivatives
+	public Vector calc( Vector input ){ // calculates o
 		
 		// extend input to input^
-		double[] inputArr = input.toArray();
-		double[] inputExtArr = new double[inputArr.length+1];
-		for(int i=0; i<inputArr.length; i++){
-			inputExtArr[i] = inputArr[i];
-		}
-		inputExtArr[inputArr.length] = 1;
-		Vector inputExt = new Vector(inputExtArr);
+		Vector inputExt = input.getExtended();
 		
 		// calculate o = sigmoid(o^ * w- )
 		Vector tmp = new Vector( inputExt.times(wExt) );
-		o = MathUtil.sigmoid( tmp );
+		return MathUtil.sigmoid( tmp );
+	}
+	
+	
+	public Vector calcAndSave( Vector input ){ // saves o 
+		// save o
+		o = calc(input);
 		
 		// calculate D_j: for diagnoal axis oi^j * (1- oi^j)
+		// and save D_j
 		double[] oArr = o.toArray();
 		derivations = new Matrix(oArr.length, oArr.length);
 		for(int i=0; i<oArr.length; i++){
 			derivations.set(i, i, oArr[i]*(1-oArr[i]));
 		}
 		
-		// return o
 		return o;
-	}
-	
-	
-	public Vector calcAndSave( Vector input ){
-		calc(input);
-		return null;
 	}
 }
