@@ -35,7 +35,7 @@ public class Net {
 	}
 	
 	private void feedForward( Pattern input){
-		Vector temp_o = new Vector(input.features);
+		Vector temp_o = input.features;
 		for(Layer l: hiddenLayers){
 			temp_o = l.calcAndSave(temp_o);
 		}
