@@ -101,15 +101,17 @@ public class Net {
 
 		outputLayer.wExt = outputLayer.wExt.plus(diffWExtTransposed.transpose());
 		
+		System.out.println("#hidden: "  + hiddenLayers.size());
 		
 		// Backpropagation step for hidden layers
 		Layer l_succ = outputLayer; // successor Layer
-		for(int i = hiddenLayers.size()-1; i>0; i--){
+		for(int i = hiddenLayers.size()-1; i>=0; i--){
+			System.out.println("i:" + i);
 			Layer l = hiddenLayers.get(i);
 			// calc delta
 			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta));
 			
-			if(i > 0){
+			if(i >= 0){
 				prevLayer = hiddenLayers.get(i-1).o;
 			}else{
 				prevLayer = input; 
