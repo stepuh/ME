@@ -8,10 +8,12 @@ public class Layer {
 	public Vector delta;
 	public Vector o;
 	public int k;
+	public int prevK;
 	
 	
 	public Layer(int prevK, int k){
 		this.k = k;
+		this.prevK = prevK;
 
 		// Matrix erstellen
 		double[][] tmpWExt = new double[prevK+1][k];
@@ -59,10 +61,10 @@ public class Layer {
 		
 		// calculate D_j: for diagnoal axis oi^j * (1- oi^j)
 		// and save D_j
-		double[] oArr = input.toArray();
+		double[] oArr = o.toArray();
 		derivations = new Matrix(oArr.length, oArr.length);
 		for(int i=0; i<oArr.length; i++){
-			derivations.set(i, i, oArr[i]*(1-oArr[i]));
+			derivations.set(i, i, oArr[i]*(1-oArr[i]) );
 		}
 		
 		return o;

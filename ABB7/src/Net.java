@@ -28,7 +28,13 @@ public class Net {
 	
 	// Adds a new hidden layer right after the last hidden layer with k nodes
 	public void addHiddenLayer(int k){
-		int prevK = hiddenLayers.get(hiddenLayers.size()-1).k;
+		int prevK;
+		if(hiddenLayers.size()>1){
+			prevK = hiddenLayers.get(hiddenLayers.size()-1).k;
+		}else{
+			prevK = outputLayer.prevK;
+		}
+		
 		Layer l = new Layer(prevK, k);
 		hiddenLayers.add(l);
 		int m = outputLayer.k;
@@ -75,16 +81,25 @@ public class Net {
 		
 		// Backpropagation-Step for the output-layer
 		outputLayer.calcE(teaching);
+		Matrix d = outputLayer.derivations;
+		System.out.println("d " + d.getRowDimension() +", "+d.getColumnDimension());
+
+		
+		Matrix e = outputLayer.e;
+		System.out.println("e " + e.getRowDimension() +", "+e.getColumnDimension());
+		
 		outputLayer.delta = new Vector(outputLayer.derivations.times(outputLayer.e.transpose()).transpose());
 		
 
-
+		//
+		Vector o_1 = hiddenLayers.get(hiddenLayers.size()).o;
+		
 		// update weights of output-layer
 		System.out.println("wExt " + outputLayer.wExt.getRowDimension() +", "+outputLayer.wExt.getColumnDimension());
 		Matrix diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(outputLayer.o.getExtended());
 		System.out.println("diff " + diffWExtTransposed.getRowDimension() +", "+diffWExtTransposed.getColumnDimension());
 
-		outputLayer.wExt.times(diffWExtTransposed.transpose());
+		outputLayer.wExt = outputLayer.wExt.plus(diffWExtTransposed.transpose());
 		
 		
 		// Backpropagation step for hidden layers
@@ -97,7 +112,7 @@ public class Net {
 			// update weights
 			diffWExtTransposed = l.delta.times(-learnConst).times(l.o.getExtended()); 
 			diffWExtTransposed.transpose();
-			l.wExt.plus(diffWExtTransposed);
+			l.wExt = l.wExt.plus(diffWExtTransposed);
 			l_succ = l;
 		}	
 	}

@@ -11,6 +11,7 @@ public class Client24 {
 		int dim = train.get(0).dim;
 		
 		Net net = new Net(dim, 10);
+		net.addHiddenLayer(10);
 		for(Pattern d: train){
 			net.learnFrom(d);
 		}
