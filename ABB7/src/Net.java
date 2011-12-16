@@ -46,7 +46,7 @@ public class Net {
 	// Updates the net's weights after learning from a certain pattern
 	public void learnFrom(Pattern pattern){
 		feedForward(pattern.features);
-		backPropagation(pattern.teaching);
+		backPropagation(pattern.teaching, pattern.features);
 	}
 	
 	
@@ -76,7 +76,7 @@ public class Net {
 	
 	// The Backpropagation Step calculates new Weights by
 	// using the derivations and traversing backwards through the net.
-	private void backPropagation(Vector teaching){
+	private void backPropagation(Vector teaching, Vector input){
 		double learnConst = 1.0;
 		
 		// Backpropagation-Step for the output-layer
@@ -92,11 +92,11 @@ public class Net {
 		
 
 		//
-		Vector o_1 = hiddenLayers.get(hiddenLayers.size()).o;
+		Vector prevLayer = hiddenLayers.get(hiddenLayers.size()-1).o;
 		
 		// update weights of output-layer
 		System.out.println("wExt " + outputLayer.wExt.getRowDimension() +", "+outputLayer.wExt.getColumnDimension());
-		Matrix diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(outputLayer.o.getExtended());
+		Matrix diffWExtTransposed = outputLayer.delta.transpose().times(-learnConst).times(prevLayer.getExtended());
 		System.out.println("diff " + diffWExtTransposed.getRowDimension() +", "+diffWExtTransposed.getColumnDimension());
 
 		outputLayer.wExt = outputLayer.wExt.plus(diffWExtTransposed.transpose());
@@ -108,9 +108,15 @@ public class Net {
 			Layer l = hiddenLayers.get(i);
 			// calc delta
 			l.delta = new Vector(l.derivations.times(l_succ.getW()).times(l_succ.delta));
-
+			
+			if(i > 0){
+				prevLayer = hiddenLayers.get(i-1).o;
+			}else{
+				prevLayer = input; 
+			}
+			
 			// update weights
-			diffWExtTransposed = l.delta.times(-learnConst).times(l.o.getExtended()); 
+			diffWExtTransposed = l.delta.times(-learnConst).times(prevLayer.getExtended()); 
 			diffWExtTransposed.transpose();
 			l.wExt = l.wExt.plus(diffWExtTransposed);
 			l_succ = l;
