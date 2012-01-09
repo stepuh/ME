@@ -8,17 +8,10 @@ public class Client25 {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		int adaBoostIterationNum = 10; // == committee size
-		int classifierNum = 1000;  // number of classifiers
+		int iterationNum = 50; // == committee size
+		int classifierNum = 10000;  // number of classifiers
 		
 		ArrayList<Pattern> training = new Reader( "ring.csv" ).getDatasets();
-		
-		// teaching bereinigen
-		for( Pattern p: training ){
-			if( -1.0 == p.teaching ){
-				p.teaching = 0;
-			}
-		}
 		
 		// features normalisieren
 		// minimum und maximum finden
@@ -53,12 +46,20 @@ public class Client25 {
 			p.features = new Vector(f);
 		}
 		
-		
-		
-		ArrayList<Classifier> classifier = new ArrayList<Classifier>();
+		// classifier initialisieren
+		ArrayList<Classifier> classifiers = new ArrayList<Classifier>();
 		for( int i=0; i<classifierNum; i++ ){
-			classifier.add( new Classifier( training ) ); // adds new random classifier
+			classifiers.add( new Classifier( training ) ); // adds new random classifier
 		}
+
+		AdaBoost boostIt = new AdaBoost(classifiers, iterationNum, training);
+		int correct=0;
+		for( Pattern p: training ){
+			if( boostIt.classify( p ) == p.teaching ){
+				correct++;
+			}
+		}
+		System.out.println(correct/(double)training.size());
 
 	}
 

@@ -63,13 +63,11 @@ public class Classifier {
 				corrects++;
 			}
 		}	
-		
-		System.out.println("corrects: " + corrects);
 	}
 	
 	
 	public int classify(Pattern p){
-		int side = 0;
+		int side = -1;
 		double[] vArray = v.toArray();
 		if (vArray[0] * p.features.toArray()[1] - vArray[1]* p.features.toArray()[0] < 0){
 			// links
