@@ -11,13 +11,29 @@ public class Client25 {
 		int adaBoostIterationNum = 10; // == committee size
 		int classifierNum = 1000;  // number of classifiers
 		
-		ArrayList<Dataset> training = new Reader( "ring.csv" ).getDatasets();
-		// correctClass bereinigen
-		for( Dataset d:training ){
-			if( -1 == d.correctKlass ){
-				d.correctKlass = 0;
+		ArrayList<Pattern> training = new Reader( "ring.csv" ).getDatasets();
+		
+		// teaching bereinigen
+		for( Pattern p: training ){
+			if( -1.0 == p.teaching ){
+				p.teaching = 0;
 			}
-		}	
+		}
+		
+		// minimum auf 0 shiften
+		double minimum;
+		for( Pattern p: training ){
+			double[] f= p.features.toArray();
+			for( double d: f){
+				if( d<minimum){
+					minimum = d;
+				}
+			}
+		}
+		for( Pattern p: training ){
+			double[] f = p.features.toArray();
+		}
+		
 		
 		
 		ArrayList<Classifier> classifier = new ArrayList<Classifier>();
