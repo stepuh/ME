@@ -13,6 +13,8 @@ public class Client25 {
 		
 		ArrayList<Pattern> training = new Reader( "ring.csv" ).getDatasets();
 		
+	
+		
 		// teaching bereinigen
 		for( Pattern p: training ){
 			if( -1.0 == p.teaching ){
@@ -20,19 +22,42 @@ public class Client25 {
 			}
 		}
 		
-		// minimum auf 0 shiften
+		// features normalisieren
+		// minimum und maximum finden
 		double minimum;
+		double maximum;
 		for( Pattern p: training ){
 			double[] f= p.features.toArray();
 			for( double d: f){
 				if( d<minimum){
 					minimum = d;
 				}
+				if( d>maximum);
 			}
 		}
+		// werte auf 0 shiften
 		for( Pattern p: training ){
 			double[] f = p.features.toArray();
+			for(int i=0; i<f.length; i++){
+				if( 0 < minimum){
+					f[i] += minimum;
+				}else{
+					f[i] -= minimum;
+				}
+			}
+			p.features = new Vector(f);
 		}
+		// werte auf 1 normalisieren
+		for( Pattern p: training){
+			double[] f = p.features.toArray();
+			for(int i=0; i<f.length; i++){
+				if( 0 < minimum){
+					f[i] /= maximum;
+				}
+			}
+			p.features = new Vector(f);
+		}
+		
 		
 		
 		
