@@ -8,7 +8,8 @@ public class Classifier {
 	public double xStart;
 	public double yStart;
 	public Vector v;
-
+	public double weight;
+	
 	public ArrayList<Integer> results;
 	
 	
