@@ -20,7 +20,7 @@ public class AdaBoost {
 	public void iterate(){
 		selectBestClassifier();
 		selectAlphaM();
-		
+		updateWeights();
 	}
 	
 }
