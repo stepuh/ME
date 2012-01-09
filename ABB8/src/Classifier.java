@@ -10,7 +10,7 @@ public class Classifier {
 	public Vector v;
 	
 	
-	public Classifier(ArrayList<Dataset> datasets){
+	public Classifier(ArrayList<Pattern> patterns){
 		// Create random vector for classification 
 		xStart = Math.random();
 		yStart = Math.random();
@@ -25,7 +25,19 @@ public class Classifier {
 		
 		// Test perzeptron on all Datasets
 		corrects = 0;
-		for(Dataset d : datasets){
+		for(Pattern p : patterns){
+			// poject vector of pattern on classifier's vector
+			int side = 0;
+			if (vArray[0] * p.features.toArray()[1] - vArray[1]* p.features.toArray()[0] < 0){
+				// links
+				side = 1;
+			}
+			
+			// compare result with teaching
+			if(side == p.teaching){
+				corrects++;
+			}
+			
 		}		
 		
 		System.out.println("corrects: " + corrects);
