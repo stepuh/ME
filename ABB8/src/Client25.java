@@ -30,28 +30,25 @@ public class Client25 {
 				if( d<minimum){
 					minimum = d;
 				}
-				if( d>maximum);
+				if( d>maximum){
+					maximum = d;
+				}
 			}
 		}
 		// werte auf 0 shiften
 		for( Pattern p: training ){
 			double[] f = p.features.toArray();
 			for(int i=0; i<f.length; i++){
-				if( 0 < minimum){
-					f[i] += minimum;
-				}else{
 					f[i] -= minimum;
-				}
 			}
 			p.features = new Vector(f);
 		}
 		// werte auf 1 normalisieren
+		maximum -= minimum;
 		for( Pattern p: training){
 			double[] f = p.features.toArray();
 			for(int i=0; i<f.length; i++){
-				if( 0 < minimum){
 					f[i] /= maximum;
-				}
 			}
 			p.features = new Vector(f);
 		}
