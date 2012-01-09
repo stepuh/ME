@@ -12,7 +12,7 @@ public class Dataset {
 	int correctKlass;				// prototype: class of most members; dataset: represented class 
 	double[] features;				// position vector
 	int dim;						// dimensions of vector
-	double value;					// value needed for AdaBoost
+	double weight;					// weight needed for AdaBoost
 	
 	
 	public Dataset( double [] f){
