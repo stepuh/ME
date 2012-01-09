@@ -3,26 +3,32 @@ import java.util.ArrayList;
 
 public class Classifier {
 
-	public PerzeptronNetz perzeptron;		// perzeptron network used to classify
-	public int corrects;					// number of correct identifies datasets
 
+	public double corrects;
+	public double xStart;
+	public double yStart;
+	public Vector v;
+	
 	
 	public Classifier(ArrayList<Dataset> datasets){
-		// Create random neuronal net for classification 
-		PerzeptronNetz perzeptron = new PerzeptronNetz(2, 1);
+		// Create random vector for classification 
+		xStart = Math.random();
+		yStart = Math.random();
+		double x2 = Math.random();
+		double y2 = Math.random();
+		
+		double[] vArray = new double[2];
+		vArray[0] = xStart - x2;
+		vArray[1] = yStart - y2;
+				
+		v = new Vector(vArray);
 		
 		// Test perzeptron on all Datasets
 		corrects = 0;
 		for(Dataset d : datasets){
-			double[] correctClass = new double[1];
-			correctClass[0] = d.correctKlass;
-			Muster m = new Muster(d.features, correctClass);
-			double[] ergebnis = perzeptron.ergebnisZuMuster(m);
-			
-			if (ergebnis[0] == correctClass[0]){
-				corrects++;
-			}
 		}		
+		
+		System.out.println("corrects: " + corrects);
 	}
 	
 }
