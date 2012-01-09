@@ -55,7 +55,6 @@ public class Client25 {
 		
 		
 		
-		
 		ArrayList<Classifier> classifier = new ArrayList<Classifier>();
 		for( int i=0; i<classifierNum; i++ ){
 			classifier.add( new Classifier( training ) ); // adds new random classifier

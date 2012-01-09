@@ -13,7 +13,7 @@ public class Pattern {
 	int teaching;				
 	Vector features;				// position vector
 	int dim;						// dimensions of vector
-	
+	double weight;
 	
 	public Pattern( double [] f){
 		features = new Vector(f);
