@@ -50,6 +50,7 @@ public class Client25 {
 			for(int i=0; i<f.length; i++){
 					f[i] /= maximum;
 					f[i] *= 500;
+					f[i] += 100;
 			}
 			p.features = new Vector(f);
 		}
@@ -66,7 +67,7 @@ public class Client25 {
 		ArrayList<Classifier> committee = boostIt.committee;
 		
 		JFrame jfall = new JFrame();
-		jfall.setBounds(500, 500, 500, 500);
+		jfall.setBounds(500, 100, 700, 700);
 		jfall.setBackground(Color.BLACK);
 		
 		
@@ -81,7 +82,8 @@ public class Client25 {
 		for(Classifier c: committee){
 			tmpCommittee.add(c);
 			JFrame jf = new JFrame();
-			jf.setBounds(500, 500, 500, 500);
+			jf.setBounds(500, 100, 700, 700);
+
 			jf.setBackground(Color.BLACK);
 			
 			

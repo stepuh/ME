@@ -24,9 +24,14 @@ public class DrawingPanel extends JPanel{
 		for(Classifier c: committee){
 			g.setColor(Color.WHITE);
 			double[] vector = c.v.toArray();
-			int xStart = 500 - (int) (c.xStart);
-			int yStart = 500 - (int) (c.yStart);
+			int xStart = (int) (c.xStart);
+			int yStart = (int) (c.yStart);
+			System.out.println(c.xStart+" "+c.yStart);
+			g.setColor (Color.WHITE);
 			g.fillRect(xStart, yStart, 5, 5);
+			g.setColor (Color.ORANGE);
+			g.fillRect(478, 478, 22, 22);
+			g.setColor (Color.WHITE);
 
 			int xEnd = (int) (xStart + vector[0] * 2);
 			int yEnd = (int) (yStart + vector[1] * 2);
@@ -34,6 +39,7 @@ public class DrawingPanel extends JPanel{
 			
 			xEnd = (int) (xStart - vector[0] * 2);
 			yEnd = (int) (yStart - vector[1] * 2);
+			
 			g.drawLine(xStart, yStart, xEnd, yEnd);
 			last = c;
 		}
