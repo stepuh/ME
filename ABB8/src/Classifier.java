@@ -15,10 +15,10 @@ public class Classifier {
 	
 	public Classifier(ArrayList<Pattern> patterns){
 		// Create random vector for classification 
-		xStart = Math.random();
-		yStart = Math.random();
-		double x2 = Math.random();
-		double y2 = Math.random();
+		xStart = Math.random()*500;
+		yStart = Math.random()*500;
+		double x2 = Math.random()*500;
+		double y2 = Math.random()*500;
 		
 		double[] vArray = new double[2];
 		vArray[0] = xStart - x2;

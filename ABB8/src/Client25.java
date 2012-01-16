@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -8,12 +9,12 @@ public class Client25 {
 
 	/**
 	 * @param args
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		int iterationNum = 4; // == committee size
-		int classifierNum = 100000;  // number of classifiers
+		int classifierNum = 500;  // number of classifiers
 		
 
 		
@@ -48,6 +49,7 @@ public class Client25 {
 			double[] f = p.features.toArray();
 			for(int i=0; i<f.length; i++){
 					f[i] /= maximum;
+					f[i] *= 500;
 			}
 			p.features = new Vector(f);
 		}
@@ -63,14 +65,35 @@ public class Client25 {
 		AdaBoost boostIt = new AdaBoost(classifiers, iterationNum, training);
 		ArrayList<Classifier> committee = boostIt.committee;
 		
-		JFrame jf = new JFrame();
-		jf.setBounds(500, 500, 500, 500);
-		jf.setBackground(Color.BLACK);
+		JFrame jfall = new JFrame();
+		jfall.setBounds(500, 500, 500, 500);
+		jfall.setBackground(Color.BLACK);
 		
-		DrawingPanel panel = new DrawingPanel(training, committee);
-		jf.add(panel);
-		jf.repaint();
-		jf.setVisible(true);
+		
+		
+		DrawingPanel panelall = new DrawingPanel(training, classifiers);
+		jfall.add(panelall);
+		jfall.repaint();
+		jfall.setVisible(true);
+		System.in.read();
+		
+		ArrayList<Classifier> tmpCommittee = new ArrayList<Classifier>();
+		for(Classifier c: committee){
+			tmpCommittee.add(c);
+			JFrame jf = new JFrame();
+			jf.setBounds(500, 500, 500, 500);
+			jf.setBackground(Color.BLACK);
+			
+			
+			
+			DrawingPanel panel = new DrawingPanel(training, tmpCommittee);
+			jf.add(panel);
+			jf.repaint();
+			jf.setVisible(true);
+			System.in.read();
+		}
+		
+
 		
 		
 		
