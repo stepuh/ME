@@ -12,8 +12,8 @@ public class Client25 {
 	 */
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		int iterationNum = 50; // == committee size
-		int classifierNum = 10000;  // number of classifiers
+		int iterationNum = 4; // == committee size
+		int classifierNum = 100000;  // number of classifiers
 		
 
 		

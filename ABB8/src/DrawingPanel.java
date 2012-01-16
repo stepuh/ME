@@ -40,13 +40,14 @@ public class DrawingPanel extends JPanel{
 			double[] vector = c.v.toArray();
 			int xStart = (int) (c.xStart * 500);
 			int yStart = (int) (c.yStart * 500);
-			int xEnd = (int) ((c.xStart + vector[1]) * 500);
-			int yEnd = (int) ((c.yStart + vector[0]) * 500);
 			g.fillRect(xStart, yStart, 5, 5);
+
+			int xEnd = (int) (xStart + vector[1] * 5000);
+			int yEnd = (int) (yStart + vector[0] * 5000);
 			g.drawLine(xStart, yStart, xEnd, yEnd);
 			
-			xEnd = (int) ((c.xStart - vector[1]) * 500);
-			yEnd = (int) ((c.yStart - vector[0]) * 500);
+			xEnd = (int) (xStart - vector[1] * 5000);
+			yEnd = (int) (yStart - vector[0] * 5000);
 			g.drawLine(xStart, yStart, xEnd, yEnd);
 		}
 	}
