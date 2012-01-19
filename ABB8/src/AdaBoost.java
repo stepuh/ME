@@ -19,9 +19,7 @@ public class AdaBoost {
 			p.weight = 1.0 / patterns.size();
 		}
 		
-		for(int i=0; i < iterationNum; i++ ){
-			iterate();
-		}
+
 		
 	}
 	

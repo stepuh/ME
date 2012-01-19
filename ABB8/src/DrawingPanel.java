@@ -22,27 +22,27 @@ public class DrawingPanel extends JPanel{
 		Classifier last= null;
 		
 		for(Classifier c: committee){
-			g.setColor(Color.WHITE);
-			double[] vector = c.v.toArray();
-			int xStart = (int) (c.xStart);
-			int yStart = (int) (c.yStart);
-			System.out.println(c.xStart+" "+c.yStart);
-			g.setColor (Color.WHITE);
-			g.fillRect(xStart, yStart, 5, 5);
-			g.setColor (Color.ORANGE);
-			g.fillRect(478, 478, 22, 22);
-			g.setColor (Color.WHITE);
 
-			int xEnd = (int) (xStart + vector[0] * 2);
-			int yEnd = (int) (yStart + vector[1] * 2);
-			g.drawLine(xStart, yStart, xEnd, yEnd);
-			
-			xEnd = (int) (xStart - vector[0] * 2);
-			yEnd = (int) (yStart - vector[1] * 2);
-			
-			g.drawLine(xStart, yStart, xEnd, yEnd);
+			double [] richtung = c.v.times(100).getArray()[0];
+			double [] start = { c.xStart, c.yStart };
+			double [] end1 = { start[0]+richtung[0], start[1]+richtung[1] };
+			double [] end2 = { start[0]-richtung[0], start[1]-richtung[1] };
+			g.setColor (Color.LIGHT_GRAY);
+			g.fillRoundRect((int)start[0], (int)start[1], 10, 10, 5, 5);
+			g.drawLine((int)start[0], (int)start[1], (int)end1[0], (int)end1[1]);
+			g.drawLine((int)start[0], (int)start[1], (int)end2[0], (int)end2[1]);
+
 			last = c;
 		}
+		
+		double [] richtung = last.v.times(20).getArray()[0];
+		double [] start = { last.xStart, last.yStart };
+		double [] end1 = { start[0]+richtung[0], start[1]+richtung[1] };
+		double [] end2 = { start[0]-richtung[0], start[1]-richtung[1] };
+		g.setColor (Color.GREEN);
+		g.fillRoundRect((int)start[0], (int)start[1], 10, 10, 5, 5);
+		g.drawLine((int)start[0], (int)start[1], (int)end1[0], (int)end1[1]);
+		g.drawLine((int)start[0], (int)start[1], (int)end2[0], (int)end2[1]);
 		
 		for(Pattern p: points){
 			int mid_x = (int)(p.features.toArray()[0]);

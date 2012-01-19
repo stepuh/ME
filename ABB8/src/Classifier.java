@@ -67,13 +67,18 @@ public class Classifier {
 	
 	
 	public int classify(Pattern p){
-		int side = -1;
-		double[] vArray = v.toArray();
-		if (vArray[0] * p.features.toArray()[1] - vArray[1]* p.features.toArray()[0] < 0){
-			// links
-			side = 1;
+		double p1 = p.features.toArray()[0];
+		double p2 = p.features.toArray()[1];
+		double s1 = this.xStart;
+		double s2 = this.yStart;
+		double g1 = this.v.toArray()[0];
+		double g2 = this.v.toArray()[1];
+		if(g2*(p1-s1)-g1*(p2-s2) > 0 ){
+			return 1;
+		}else{
+			return -1;
 		}
-		return side;
+
 	}
 	
 	

@@ -10,11 +10,12 @@ public class Client25 {
 	/**
 	 * @param args
 	 * @throws IOException 
+	 * @throws InterruptedException 
 	 */
 	
-	public static void main(String[] args) throws IOException {
-		int iterationNum = 4; // == committee size
-		int classifierNum = 500;  // number of classifiers
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int iterationNum = 100; // == committee size
+		int classifierNum = 10000;  // number of classifiers
 		
 
 		
@@ -62,51 +63,34 @@ public class Client25 {
 			classifiers.add( new Classifier( training ) ); // adds new random classifier
 		}
 
-		
-		AdaBoost boostIt = new AdaBoost(classifiers, iterationNum, training);
-		ArrayList<Classifier> committee = boostIt.committee;
-		
 		JFrame jfall = new JFrame();
 		jfall.setBounds(500, 100, 700, 700);
 		jfall.setBackground(Color.BLACK);
 		
-		
-		
-		DrawingPanel panelall = new DrawingPanel(training, classifiers);
-		jfall.add(panelall);
-		jfall.repaint();
-		jfall.setVisible(true);
-		System.in.read();
-		
-		ArrayList<Classifier> tmpCommittee = new ArrayList<Classifier>();
-		for(Classifier c: committee){
-			tmpCommittee.add(c);
-			JFrame jf = new JFrame();
-			jf.setBounds(500, 100, 700, 700);
-
-			jf.setBackground(Color.BLACK);
+		AdaBoost boostIt = new AdaBoost(classifiers, iterationNum, training);
+		for(int i=0; i < iterationNum; i++ ){
+			boostIt.iterate();
+			ArrayList<Classifier> committee = boostIt.committee;
 			
+			// print the rate of correct classifications for every iteration
+			int correct=0;
+			for( Pattern p: training ){
+				if( boostIt.classify( p ) == p.teaching ){
+					correct++;
+				}
+			}
+			System.out.println(i+" "+correct/(double)training.size());
 			
-			
-			DrawingPanel panel = new DrawingPanel(training, tmpCommittee);
-			jf.add(panel);
-			jf.repaint();
-			jf.setVisible(true);
-			System.in.read();
-		}
-		
-
-		
-		
-		
-		int correct=0;
-		for( Pattern p: training ){
-			if( boostIt.classify( p ) == p.teaching ){
-				correct++;
+			// draw the panel for the first 5 iterations
+			if(i <= 5){
+				JFrame jf = new JFrame();
+				jf.setBounds(500, 100, 700, 700);
+				jf.setBackground(Color.BLACK);
+				DrawingPanel panel = new DrawingPanel(training, committee);
+				jf.add(panel);
+				jf.repaint();
+				jf.setVisible(true);
 			}
 		}
-		System.out.println(correct/(double)training.size());
-
 	}
-
 }
