@@ -53,6 +53,15 @@ public class NMF {
 	
 	
 	
+	public void iterate(int iterations){
+		for(int i=0; i<iterations; i++){
+			adjustingW();
+			adjustingH();
+		}
+	}
+	
+	
+	
 	public void adjustingW(){
 		for(int i=0; i<dim; i++){
 			for(int a=0; a< componentCount; a++){
@@ -81,6 +90,8 @@ public class NMF {
 		}
 		W = new Matrix(newArray);
 	}
+	
+
 	
 	public void adjustingH(){
 		for(int myu=0; myu<patternCount; myu++){
@@ -136,6 +147,17 @@ public class NMF {
 	}
 	
 	
+	public ArrayList<Pattern> getWPatterns(){
+		ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+		for(int j=0; j<componentCount; j++){
+			double[] features = new double[dim];
+			for(int i=0; i < dim; i++){
+				features[i] = W.getArray()[i][j];
+			}
+			patterns.add(new Pattern(features));
+		}
+		return patterns;
+	}
 	
 	
 	

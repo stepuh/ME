@@ -40,6 +40,12 @@ public class Client26 {
 			jf.setVisible(true);
 			offset_left++;
 		}
+	
+	
+		NMF myNMF = new NMF(training, 20);
+		
+		
+	
 	}
 
 }
