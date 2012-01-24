@@ -82,6 +82,22 @@ public class NMF {
 		W = new Matrix(newArray);
 	}
 	
+	public void adjustingH(){
+		for(int myu=0; myu<patternCount; myu++){
+			for(int a=0; a< componentCount; a++){
+				// sum
+				double sum = 0;
+				for(int i=0; i<dim; i++){
+					sum = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
+					sum *= W.getArray()[a][myu];
+				}
+				double[][] newArray = H.getArray();
+				newArray[a][myu] = newArray[a][myu] * sum;
+				H = new Matrix(newArray);
+			}
+		}
+	}
+	
 		
 	
 	// Returns square error: ||v1 - v2||^2 
