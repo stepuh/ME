@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import com.sun.tools.javac.processing.JavacProcessingEnvironment.ComputeAnnotationSet;
+
 import Jama.Matrix;
 
 
@@ -41,7 +43,7 @@ public class NMF {
 		}
 		for(int i=0; i < componentCount; i++){
 			for(int j=0; j<patternCount; j++){
-				arrayW[i][j] = 1.0 / (componentCount*patternCount);
+				arrayH[i][j] = 1.0 / (componentCount*patternCount);
 			}
 		}
 		
@@ -55,6 +57,7 @@ public class NMF {
 	
 	public void iterate(int iterations){
 		for(int i=0; i<iterations; i++){
+			calcVStrich();
 			adjustingW();
 			adjustingH();
 		}
@@ -67,8 +70,8 @@ public class NMF {
 			for(int a=0; a< componentCount; a++){
 				double sum = 0;
 				for(int myu=0; myu<patternCount; myu++){
-					sum = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
-					sum *= H.getArray()[a][myu];
+					double tmp = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
+					sum += tmp * H.getArray()[a][myu];
 				}
 				double[][] newArray = W.getArray();
 				newArray[i][a] = newArray[i][a] * sum;
@@ -99,8 +102,8 @@ public class NMF {
 				// sum
 				double sum = 0;
 				for(int i=0; i<dim; i++){
-					sum = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
-					sum *= W.getArray()[a][myu];
+					double tmp = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
+					sum += tmp * W.getArray()[i][a];
 				}
 				double[][] newArray = H.getArray();
 				newArray[a][myu] = newArray[a][myu] * sum;
@@ -109,7 +112,18 @@ public class NMF {
 		}
 	}
 	
-		
+	public ArrayList<Pattern> getVStrichPatterns(){
+		ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+			for(int j=0; j<patternCount; j++){
+				double[] features = new double[dim];
+				for(int i=0; i < dim; i++){
+					features[i] = VStrich.getArray()[i][j];
+				}
+				patterns.add(new Pattern(features));
+			}
+			return patterns;
+		}	
+	
 	
 	// Returns square error: ||v1 - v2||^2 
 	public double distance(Matrix v1, Matrix v2){

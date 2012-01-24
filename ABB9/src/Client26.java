@@ -42,8 +42,7 @@ public class Client26 {
 		}
 	
 	
-		NMF myNMF = new NMF(training, 20);
-		
+	
 		
 	
 	}
