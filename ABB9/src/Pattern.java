@@ -1,3 +1,5 @@
+import Jama.Matrix;
+
 
 
 
@@ -12,8 +14,10 @@ public class Pattern {
 	
 	int teaching;				
 	Vector features;				// position vector
+	Matrix visualMatrix;
 	int dim;						// dimensions of vector
 	double weight;
+
 	
 	public Pattern( double [] f){
 		features = new Vector(f);
