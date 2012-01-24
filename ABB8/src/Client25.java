@@ -78,8 +78,8 @@ public class Client25 {
 				if( boostIt.classify( p ) == p.teaching ){
 					correct++;
 				}
-			}
 			System.out.println(i+" "+correct/(double)training.size());
+			}
 			
 			// draw the panel for the first 5 iterations
 			if(i <= 5){
