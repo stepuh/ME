@@ -27,7 +27,7 @@ public class Client28 {
 		
 		NMF myNMF = new NMF(training, 20);
 		
-		myNMF.iterate(300);
+		myNMF.iterate(500);
 		myNMF.finalNormalizeW();
 		
 		
@@ -36,7 +36,7 @@ public class Client28 {
 		reconstructed = myNMF.getVStrichPatterns();
 			
 
-		int item=12;
+		int item=10;
 
 		JFrame jfre = new JFrame();
 		jfre.setBounds(160, 230, 150, 200);

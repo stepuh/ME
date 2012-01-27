@@ -27,7 +27,7 @@ public class Client27 {
 		
 		NMF myNMF = new NMF(training, 20);
 		
-		myNMF.iterate(300);
+		myNMF.iterate(500);
 		myNMF.finalNormalizeW();
 		
 		
