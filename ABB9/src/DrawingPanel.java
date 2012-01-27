@@ -25,6 +25,12 @@ public class DrawingPanel extends JPanel{
 		for( int i=0; i<features.length; i++){
 			rowCount = i/valuesInRow;
 			float grauwert = (float) features[i];
+			if(1 < grauwert){
+				grauwert = 1;
+			}
+			if( 0 > grauwert){
+				grauwert = 0;
+			}
 			Color grauton = new Color( grauwert, grauwert, grauwert );
 			g.setColor (grauton);
 			g.fillRect(offset_left+10*(i%valuesInRow), offset_top+10*rowCount, 10, 10);

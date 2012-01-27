@@ -37,12 +37,14 @@ public class NMF {
 		// Fill matrices W and H with average values
 		for(int i=0; i < dim; i++){
 			for(int j=0; j<componentCount; j++){
-				arrayW[i][j] = 1.0 / (dim*componentCount);
+//				arrayW[i][j] = 1.0 / (dim*componentCount); // does not work!
+				arrayW[i][j] = Math.random();
 			}
 		}
 		for(int i=0; i < componentCount; i++){
 			for(int j=0; j<patternCount; j++){
-				arrayH[i][j] = 1.0 / (componentCount*patternCount);
+//			 	arrayH[i][j] = 1.0 / (componentCount*patternCount); // does not work
+				arrayH[i][j] = Math.random();
 			}
 		}
 		
@@ -50,6 +52,7 @@ public class NMF {
 		this.V = new Matrix(arrayV);
 		this.W = new Matrix(arrayW);
 		this.H = new Matrix(arrayH);
+
 	}
 	
 	
@@ -61,39 +64,44 @@ public class NMF {
 			adjustingH();
 		}
 	}
-	
-	
-	
-	public void adjustingW(){
-		for(int i=0; i<dim; i++){
-			for(int a=0; a< componentCount; a++){
-				double sum = 0;
-				for(int myu=0; myu<patternCount; myu++){
-					double tmp = V.getArray()[i][myu] / (VStrich.getArray()[i][myu]);
-					sum += tmp * H.getArray()[a][myu];
-				}
-				double[][] newArray = W.getArray();
-				newArray[i][a] = newArray[i][a] * sum;
-				W = new Matrix(newArray);
-			}
-		}
-
-		// normalize
-		double sumW = 0.0;
-		double[][] newArray = W.getArray();
-		for(int a=0; a< componentCount; a++){
-			sumW = 0.0;
-			for(int j=0; j<dim; j++){
-				sumW += W.getArray()[j][a];
-			}
-			for(int i=0; i<dim; i++){
-				newArray[i][a] = newArray[i][a] / sumW;
-			}
-		}
-		W = new Matrix(newArray);
 		
+	public void adjustingW(){
+		
+		for(int a=0; a<componentCount; a++){
+			double normalizeSum = 0;
+			// update
+			for(int i=0; i<dim; i++){
+				double updateSum = 0;
+				for(int myu=0; myu<patternCount; myu++){
+					double tmp = ( V.get(i, myu) / VStrich.get(i, myu) );
+					updateSum += tmp* H.get(a, myu);
+				}
+				double updatedWia = W.get(i, a) * updateSum;
+				W.set(i, a, updatedWia);
+				normalizeSum += updatedWia;
+			}
+			// normalize
+			for(int i=0; i<dim; i++){
+				double normalizedWia = W.get(i, a) / normalizeSum;
+				W.set(i, a, normalizedWia);
+			}
+		}
 	}
 	
+	public void adjustingH(){
+		for(int a=0; a< componentCount; a++){
+			for(int myu=0; myu<patternCount; myu++){	
+				// sum
+				double sum = 0;
+				for(int i=0; i<dim; i++){
+					double tmp = V.get(i, myu) / VStrich.get(i, myu);
+					sum += tmp * W.get(i, a);
+				}
+				double updatedHamyu = H.get(a, myu) * sum;
+				H.set(a, myu, updatedHamyu);
+			}
+		}
+	}
 
 	
 	public void finalNormalizeW(){
@@ -109,29 +117,19 @@ public class NMF {
 			}
 			for(int i=0; i<dim; i++){
 				newArray[i][a] = newArray[i][a] / max;
+				if( 1 < newArray[i][a] ){
+					newArray[i][a] = 1;
+				}
+				if( 0 > newArray[i][a] ){
+					newArray[i][a] = 0;
+				}
 			}
 		}
 				
 		W = new Matrix(newArray);
 	}
 	
-	
-	
-	public void adjustingH(){
-		for(int myu=0; myu<patternCount; myu++){
-			for(int a=0; a< componentCount; a++){
-				// sum
-				double sum = 0;
-				for(int i=0; i<dim; i++){
-					double tmp = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
-					sum += tmp * W.getArray()[i][a];
-				}
-				double[][] newArray = H.getArray();
-				newArray[a][myu] = newArray[a][myu] * sum;
-				H = new Matrix(newArray);
-			}
-		}
-	}
+
 	
 	public ArrayList<Pattern> getVStrichPatterns(){
 		ArrayList<Pattern> patterns = new ArrayList<Pattern>();

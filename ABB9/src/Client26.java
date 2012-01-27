@@ -10,8 +10,9 @@ public class Client26 {
 	/**
 	 * @param args
 	 * @throws FileNotFoundException 
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		
 		// read data
 		ArrayList<Pattern> unfiltered = new Reader( "digits-testing-neu.txt" ).getDatasets();
@@ -23,33 +24,26 @@ public class Client26 {
 				training.add( p );
 			}
 		}
-		
-		NMF myNMF = new NMF(training, 20);
-		
-		myNMF.iterate(200);
-		myNMF.finalNormalizeW();
-		
-		
-		//training = myNMF.getWPatterns();
-		training = myNMF.getVStrichPatterns();
 			
 		int offset_top = -1;
 		int offset_left = 0;
-		for(int i=0; i<30; i++){
-			JFrame jf = new JFrame();
-			if( 0 == i%8 ){
-				offset_top++;
-				offset_left = 0;
+		int i=0;
+		for(Pattern p: training){
+			p.features.print(1, 1);
+			i++;
+			if(i>10){
+				break;
 			}
-
-			jf.setBounds(offset_left*160, offset_top*230, 150, 200);
-			jf.setBackground(Color.RED);
-			DrawingPanel panel = new DrawingPanel(training.get(i));
+			JFrame jf = new JFrame();
+			jf.setBounds(160, 230, 150, 200);
+			DrawingPanel panel = new DrawingPanel(p);
 			jf.add(panel);
 			jf.repaint();
 			jf.setVisible(true);
-			offset_left++;
+			
+
 		}
+
 	
 	
 	
