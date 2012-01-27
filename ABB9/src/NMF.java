@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-import com.sun.tools.javac.processing.JavacProcessingEnvironment.ComputeAnnotationSet;
 
 import Jama.Matrix;
 
@@ -70,7 +69,7 @@ public class NMF {
 			for(int a=0; a< componentCount; a++){
 				double sum = 0;
 				for(int myu=0; myu<patternCount; myu++){
-					double tmp = V.getArray()[i][myu] / VStrich.getArray()[i][myu];
+					double tmp = V.getArray()[i][myu] / (VStrich.getArray()[i][myu]);
 					sum += tmp * H.getArray()[a][myu];
 				}
 				double[][] newArray = W.getArray();
@@ -91,6 +90,24 @@ public class NMF {
 				newArray[i][a] = newArray[i][a] / sumW;
 			}
 		}
+
+//		// normalize by maximum w[i][a]
+//		double sumW = 0.0;
+//		double[][] newArray = W.getArray();
+//		for(int a=0; a< componentCount; a++){
+//			double max = 0.0;
+//			for(int j=0; j<dim; j++){
+//				if (W.getArray()[j][a] > max){
+//					max = W.getArray()[j][a];
+//				}
+//			}
+//			for(int i=0; i<dim; i++){
+//				newArray[i][a] = newArray[i][a] / max;
+//			}
+//		}
+		
+		W = new Matrix(newArray);
+		
 		W = new Matrix(newArray);
 	}
 	
@@ -158,6 +175,7 @@ public class NMF {
 
 	public void calcVStrich(){
 		VStrich = W.times(H);
+		//VStrich.plus ganz kleine Zahl
 	}
 	
 	

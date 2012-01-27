@@ -23,6 +23,13 @@ public class Client26 {
 				training.add( p );
 			}
 		}
+		
+		NMF myNMF = new NMF(training, 20);
+		
+		myNMF.iterate(200);
+		//training = myNMF.getWPatterns();
+		training = myNMF.getVStrichPatterns();
+			
 		int offset_top = -1;
 		int offset_left = 0;
 		for(int i=0; i<30; i++){
