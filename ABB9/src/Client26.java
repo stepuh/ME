@@ -27,6 +27,9 @@ public class Client26 {
 		NMF myNMF = new NMF(training, 20);
 		
 		myNMF.iterate(200);
+		myNMF.finalNormalizeW();
+		
+		
 		//training = myNMF.getWPatterns();
 		training = myNMF.getVStrichPatterns();
 			

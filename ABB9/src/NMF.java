@@ -77,7 +77,7 @@ public class NMF {
 				W = new Matrix(newArray);
 			}
 		}
-		
+
 		// normalize
 		double sumW = 0.0;
 		double[][] newArray = W.getArray();
@@ -90,28 +90,32 @@ public class NMF {
 				newArray[i][a] = newArray[i][a] / sumW;
 			}
 		}
-
-//		// normalize by maximum w[i][a]
-//		double sumW = 0.0;
-//		double[][] newArray = W.getArray();
-//		for(int a=0; a< componentCount; a++){
-//			double max = 0.0;
-//			for(int j=0; j<dim; j++){
-//				if (W.getArray()[j][a] > max){
-//					max = W.getArray()[j][a];
-//				}
-//			}
-//			for(int i=0; i<dim; i++){
-//				newArray[i][a] = newArray[i][a] / max;
-//			}
-//		}
-		
 		W = new Matrix(newArray);
 		
-		W = new Matrix(newArray);
 	}
 	
 
+	
+	public void finalNormalizeW(){
+		// normalize by maximum w[i][a]
+		double sumW = 0.0;
+		double[][] newArray = W.getArray();
+		for(int a=0; a< componentCount; a++){
+			double max = 0.0;
+			for(int j=0; j<dim; j++){
+				if (W.getArray()[j][a] > max){
+					max = W.getArray()[j][a];
+				}
+			}
+			for(int i=0; i<dim; i++){
+				newArray[i][a] = newArray[i][a] / max;
+			}
+		}
+				
+		W = new Matrix(newArray);
+	}
+	
+	
 	
 	public void adjustingH(){
 		for(int myu=0; myu<patternCount; myu++){
