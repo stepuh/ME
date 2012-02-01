@@ -1,6 +1,5 @@
 
 public class Client29 {
-
 	/**
 	 * @param args
 	 */
